@@ -1,0 +1,53 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(17, 17, 17);
+}
+
+#container {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+#widgets-wrapper {
+    width: 50vw;
+    border: solid red 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row {
+    width: 550px;
+    display: flex;
+}
+
+.widget {
+    width: 250px;
+    height: 250px;
+    background-color: white;
+    border-radius: 7%;
+    margin: 3%;
+    color: white;
+    padding: 5%;
+}
+
+#current-weather {
+    background-color: rgb(106, 106, 255);
+    width: 100%;
+}
+
+#gps {
+    background-color: rgb(209, 98, 98);
+}
+
+#forecast {
+    background-color: burlywood;
+}
+
+#map {
+    background-color: rgb(93, 196, 93);
+}
