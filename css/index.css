@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: rgb(17, 17, 17);
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.widget {
+    width: 15vw;
+    height: 25%;
+    background-color: white;
+    color: white;
+    padding: 5%;
+}
+
+#current-weather {
+    background-color: rgb(106, 106, 255);
+}
+
+#gps {
+    background-color: rgb(209, 98, 98);
+}
+
+#forecast {
+    background-color: burlywood;
+}
+
+#map {
+    background-color: rgb(93, 196, 93);
+}
