@@ -15,7 +15,7 @@ current feature to work on:
 4. forecast (Krzysiek)
     - form for choosing date and hour of forecast
 
-5. website design 
+5. website design // Later
     - structure (Kamil)
     - style 
     - phone version
