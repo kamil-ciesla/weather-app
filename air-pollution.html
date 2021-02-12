@@ -1,15 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-
-</body>
-
+	<head>
+		<meta charset="utf-8">
+		<title>Air Pollution</title>
+		<link href="https://fonts.googleapis.com/css?family=Quicksand:300,500" rel="stylesheet">
+		<style>
+			body {
+			    font-family: 'Quicksand', sans-serif;
+			    font-weight: 400;
+			    font-size: 1.3em;
+			    color: #fff;
+			    text-shadow: .1em .1em 0 rgba(0,0,0,0.3);
+			    height: 100vh;
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+			    background-image: linear-gradient(90deg, rgba(7,91,68,1) 0%, rgba(127,172,160,1) 100%);
+			}
+			h1 {
+			    margin: 0 auto;
+			    text-align: center;
+			    color: #fff;
+			    font-size: 3em;
+			}
+			#pollution, #form {
+				text-align: center
+			}
+			/*body.sunny {
+			    background-image: linear-gradient(to right top, #ff4e50, #ff713e, #ff932b, #ffb41d, #f9d423);
+			}
+			body.cloudy {
+			    background-image: linear-gradient(to right top, #63747c, #71858e, #7f96a0, #8da8b2, #9bbac5);
+			}
+			body.rainy {
+			    background-image: linear-gradient(to right top, #637c7b, #718e8c, #7ea09e, #8db2b0, #9bc5c3);
+			}*/
+		</style>
+	</head>
+	<body>
+		<div id="pollution">
+			<h1 id="index"></h1>
+			<div id="description"></div>
+			<div id="co"></div>
+	    	<div id="no"></div>
+	    	<div id="no2"></div>
+	    	<div id="o3"></div>
+	    	<div id="so2"></div>
+	    	<div id="pm2_5"></div>
+	    	<div id="pm10"></div>
+	    	<div id="nh3"></div>
+		</div>
+		<script lang="text/javascript">
+			function getWeather(coordinates) { //lat=50&lon=50
+				coordinates=coordinates.split(", ");
+				coordinates="lat=" + coordinates[0] + "&lon=" + coordinates[1];
+				console.log(coordinates)
+				var key = 'yourKeyHere'; //insert your key here
+				fetch("http://api.openweathermap.org/data/2.5/air_pollution?" + coordinates + "&appid=" + key)  
+				.then(function(resp) {
+					return resp.json() // onvert data to json
+				})
+				.then(function(data) {
+					console.log(data);
+					drawWeather(data); //call drawWeather
+				})
+				.catch(function() {
+					//catch errors
+				});
+			}
+			function drawWeather(d) {
+				//var celcius = Math.round(parseFloat(d.main.temp)-273.15); //kelvin to celcius
+				//var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32); //kelvin to farenheit
+				
+				document.getElementById("index").innerHTML = "Air quality index: " + d.list[0].main.aqi;
+				document.getElementById("description").innerHTML = "(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)";
+				document.getElementById("co").innerHTML = "Сoncentration of CO (Carbon monoxide): <b>" + d.list[0].components.co + "</b> μg/m3";
+				document.getElementById("no").innerHTML = "Сoncentration of NO (Nitrogen monoxide): <b>" + d.list[0].components.no + "</b> μg/m3";
+				document.getElementById("no2").innerHTML = "Сoncentration of NO<sub>2</sub> (Nitrogen dioxide): <b>" + d.list[0].components.no2 + "</b> μg/m3";
+				document.getElementById("o3").innerHTML = "Сoncentration of O<sub>3</sub> (Ozone): <b>" + d.list[0].components.o3 + "</b> μg/m3";
+				document.getElementById("so2").innerHTML = "Сoncentration of SO<sub>2</sub> (Sulphur dioxide): <b>" + d.list[0].components.so2 + "</b> μg/m3";
+				document.getElementById("pm2_5").innerHTML = "Сoncentration of PM<sub>2.5</sub> (Fine particles matter): <b>" + d.list[0].components.pm2_5 + "</b> μg/m3";
+				document.getElementById("pm10").innerHTML = "Сoncentration of PM<sub>10</sub> (Coarse particulate matter): <b>" + d.list[0].components.pm10 + "</b> μg/m3";
+				document.getElementById("nh3").innerHTML = "Сoncentration of NH<sub>3</sub> (Ammonia): <b>" + d.list[0].components.nh3 + "</b> μg/m3";
+				
+				/*if (description.indexOf("rain") > 0 ) {
+			  		document.body.className = "rainy";
+				} else if (description.indexOf("cloud") > 0) {
+			  		document.body.className = "cloudy";
+				} else if (description.indexOf("sunny") > 0) {
+			  		document.body.className = "sunny";
+				}*/
+			}
+			/*window.onload = function() {
+			  getWeather(6167865);
+			}*/
+			function clickButton() {
+				getWeather(document.getElementById("coord").value);
+				document.getElementById("form").outerHTML = "";
+			}
+		</script>
+		<div id="form">
+			<label for="coord">Coordinates (x, y):</label><br>
+			<input type="text" id="coord" name="coord"><br>
+			<button id="serach" onclick="clickButton()">Search</button>
+		</div>
+	  	<div id="pollution">
+			<h1 id="index"></h1>
+			<div id="description"></div>
+			<div id="co"></div>
+	    	<div id="no"></div>
+	    	<div id="no2"></div>
+	    	<div id="o3"></div>
+	    	<div id="so2"></div>
+	    	<div id="pm2_5"></div>
+	    	<div id="pm10"></div>
+	    	<div id="nh3"></div>
+		</div>
+	</body>
 </html>
