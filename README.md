@@ -5,7 +5,7 @@ current feature to work on:
 1. module displaying current weather (Kamil)
     -(place, rain, humidity, wind)
 
-2. gps detection (Staszek)
+2. gps detection
     (module that detects current device location)
     - display city
     
@@ -14,8 +14,9 @@ current feature to work on:
     
 4. forecast (Krzysiek)
     - form for choosing date and hour of forecast
+5. Air polution (Alex)
 
-5. website design // Later
+6. website design // Later
     - structure (Kamil)
     - style 
     - phone version
