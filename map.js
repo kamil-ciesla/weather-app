@@ -32,41 +32,48 @@ function initMap() {
         marker.setAnimation(4); // fall
         latitude = marker.getPosition().lat();
         longitude = marker.getPosition().lng();
-        let locationName = await getLocationName(geocoder);
-        console.log(locationName);
-        updateLocation(latitude, longitude, locationName);
-    });
-
-
-    infoWindow = new google.maps.InfoWindow(); // what for?
-    window.addEventListener("load", () => {
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-
-                    infoWindow.open(map);
-                    map.setCenter(pos);
-
-
-                    marker.setPosition(pos)
-                },
-                () => {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                }
-            );
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
+        coordinates = {
+            lat: latitude,
+            lon: longitude
         }
+        let locationName = await getLocationName(geocoder);
+        updateLocation(coordinates, locationName);
+
+    });
+    window.addEventListener("load", async() => {
+        // Try HTML5 geolocation.
+        newCoordinates = await getCurrentPosition();
+        if (newCoordinates !== null) {
+            coordinates = newCoordinates;
+        } else {
+            console.log("Browser doesn't support Geolocation ");
+        }
+        map.setCenter(coordinates);
+        marker.setPosition(coordinates);
+        // issues with two lines below
+        let locationName = await getLocationName(geocoder);
+        updateLocation(coordinates, locationName);
     });
 }
 
-function getLocationName(geocoder) { //reverse geocoding
+function getCurrentPosition() {
+    return new Promise(function(resolve, reject) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const coordinates = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    resolve(coordinates);
+                },
+                () => reject(null));
+        } else
+            reject(null);
+    })
+}
+
+function getLocationName(geocoder, coordinates) { //reverse geocoding
     city_name = null;
     const latlng = { //coordinates
         lat: parseFloat(latitude),

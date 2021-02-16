@@ -31,25 +31,24 @@
         </div>
 
     </div>
+    <script src='map.js'></script>
     <script>
         const apiKey = 'b8801437aa00cae409040174e8dadb7c';
         let language = 'pl';
         let coordinates = {
-            lat: null,
-            lon: null,
+            lat: 0,
+            lon: 0,
         }
+        coordinates = getCurrentPosition();
         let locationName = null;
 
-        function updateLocation(latitude, longitude, name) {
-            coordinates.lat = latitude
-            coordinates.lon = longitude;
+        function updateLocation(newCoordinates, name) {
+            coordinates = newCoordinates;
             locationName = name;
             locationDiv = $('#location');
-            locationDiv.text(locationName + ' ' + coordinates.lat + ', ' + coordinates.lon);
+            locationDiv.text(locationName + ' ' + coordinates.lat.toPrecision(4) + ', ' + coordinates.lon.toPrecision(4));
         }
-        updateLocation(coordinates);
     </script>
-    <script src='map.js'></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=initMap&libraries=&v=weekly" async></script>
 
 </body>
