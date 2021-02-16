@@ -35,15 +35,17 @@
         const apiKey = 'b8801437aa00cae409040174e8dadb7c';
         let language = 'pl';
         let coordinates = {
-            lat: 50.0647,
-            lon: 19.945
+            lat: null,
+            lon: null,
         }
+        let locationName = null;
 
-        function updateLocation(newCoordinates) {
-            coordinates.lat = newCoordinates.lat;
-            coordinates.lon = newCoordinates.lon;
+        function updateLocation(latitude, longitude, name) {
+            coordinates.lat = latitude
+            coordinates.lon = longitude;
+            locationName = name;
             locationDiv = $('#location');
-            locationDiv.text('For: ' + coordinates.lat + ', ' + coordinates.lon);
+            locationDiv.text(locationName + ' ' + coordinates.lat + ', ' + coordinates.lon);
         }
         updateLocation(coordinates);
     </script>

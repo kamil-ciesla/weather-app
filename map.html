@@ -12,29 +12,30 @@
             width: 800px;
         }
     </style>
-<<<<<<< HEAD
     <script>
         var latitude = null;
         var longitude = null;
         let marker
+        var city_name = null
 
         // Initialize and add the map
         function initMap(position) {
-            // The location of Uluru
-            const uluru = {
+            const geocoder = new google.maps.Geocoder();
+            // The location of User
+            const user = {
                 lat: 50.064651,
                 lng: 19.944981
             };
-            // The map, centered at Uluru
+            // The map, centered at User
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 10,
-                center: uluru,
+                center: user,
             });
 
             marker = new google.maps.Marker({
                 draggable: true,
                 animation: google.maps.Animation.DROP,
-                position: uluru,
+                position: user,
                 map: map,
             });
 
@@ -46,7 +47,14 @@
                 marker.setAnimation(4); // fall
                 latitude = marker.getPosition().lat();
                 longitude = marker.getPosition().lng();
+                coordinates = {
+                    lat: marker.getPosition().lat(),
+                    lon: marker.getPosition().lng()
+                }
+                updateLocation(coordinates);
+
                 console.log(latitude + '   ' + longitude);
+                geocodeLatLng(geocoder, map)
             });
 
 
@@ -66,6 +74,7 @@
                             longitude = position.coords.longitude;
                             console.log(latitude + '   ' + longitude);
                             marker.setPosition(pos)
+                            geocodeLatLng(geocoder, map)
                         },
                         () => {
                             handleLocationError(true, infoWindow, map.getCenter());
@@ -77,113 +86,47 @@
                 }
             });
         }
-=======
-        <script>
-		var latitude = null;
-		var longitude = null;
-		let marker
-    var city_name = null
-		
-    // Initialize and add the map
-	function initMap(position) {
-        const geocoder = new google.maps.Geocoder();
-        // The location of User
-        const user = { lat: 50.064651, lng: 19.944981 };
-        // The map, centered at User
-        const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 10,
-          center: user,
-        });
-		
-		marker = new google.maps.Marker({
-				draggable: true,
-				animation: google.maps.Animation.DROP,
-				position: user,
-				map: map,
-				});
-				
-		google.maps.event.addListener(marker, "dragstart", function (ev) {
-			marker.setAnimation(3); // raise
-		});
-	
-		google.maps.event.addListener(marker, 'dragend', function(ev){
-			marker.setAnimation(4); // fall
-			latitude = marker.getPosition().lat();
-			longitude = marker.getPosition().lng();
-			console.log(latitude+'   '+longitude);
-            geocodeLatLng(geocoder, map)
-		});
-		
-		
-		infoWindow = new google.maps.InfoWindow();
-        window.addEventListener("load", () => {
-          // Try HTML5 geolocation.
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const pos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
-                };
-                infoWindow.open(map);
-                map.setCenter(pos);
-				latitude = position.coords.latitude;
-				longitude = position.coords.longitude;
-				console.log(latitude+'   '+longitude);
-				marker.setPosition(pos)
-                geocodeLatLng(geocoder, map)
-              },
-              () => {
-                handleLocationError(true, infoWindow, map.getCenter());
-              }
-            );
-          } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-          }
-        });
-      }	  
-	  
-      function geocodeLatLng(geocoder, map) {  //reverse geocoding
-        const latlng = {                //coordinates
-          lat: parseFloat(latitude),
-          lng: parseFloat(longitude),
-        };
-        geocoder.geocode({ location: latlng }, (results, status) => {
-          if (status === "OK") {
-            if (results[0]) {
-                if (results[0].address_components[2].types[0]=="locality"){      //different types of cities
-                    city_name = results[0].address_components[2].long_name        
-                    console.log(city_name);
-                } else if (results[0].address_components[1].types[0]=="locality"){
-                    city_name = results[0].address_components[1].long_name        
-                    console.log(city_name);
-                } else if (results[0].address_components[3].types[0]=="locality"){
-                    city_name = results[0].address_components[3].long_name        
-                    console.log(city_name);
-                } else if (results[0].address_components[4].types[0]=="locality"){
-                    city_name = results[0].address_components[4].long_name        
-                    console.log(city_name);
-                } else if (results[0].address_components[2].types[0]=="postal_town"){
-                    city_name = results[0].address_components[2].long_name        
-                    console.log(city_name);
-                } else if (results[0].address_components[3].types[0]=="postal_town"){
-                    city_name = results[0].address_components[3].long_name        
-                    console.log(city_name);
-                } else{
-                  console.log("City not supported")
-                }
-              
-            } else {
-              console.log("No results found");
-            }
-          } else {
-            conslole.log("Geocoder failed due to: " + status);
-          }
-        });
-      }
 
->>>>>>> 29eec8dd1f135706316108a6e26cd423b34a00c0
+        function geocodeLatLng(geocoder, map) { //reverse geocoding
+            const latlng = { //coordinates
+                lat: parseFloat(latitude),
+                lng: parseFloat(longitude),
+            };
+            geocoder.geocode({
+                location: latlng
+            }, (results, status) => {
+                if (status === "OK") {
+                    if (results[0]) {
+                        if (results[0].address_components[2].types[0] == "locality") { //different types of cities
+                            city_name = results[0].address_components[2].long_name
+                            console.log(city_name);
+                        } else if (results[0].address_components[1].types[0] == "locality") {
+                            city_name = results[0].address_components[1].long_name
+                            console.log(city_name);
+                        } else if (results[0].address_components[3].types[0] == "locality") {
+                            city_name = results[0].address_components[3].long_name
+                            console.log(city_name);
+                        } else if (results[0].address_components[4].types[0] == "locality") {
+                            city_name = results[0].address_components[4].long_name
+                            console.log(city_name);
+                        } else if (results[0].address_components[2].types[0] == "postal_town") {
+                            city_name = results[0].address_components[2].long_name
+                            console.log(city_name);
+                        } else if (results[0].address_components[3].types[0] == "postal_town") {
+                            city_name = results[0].address_components[3].long_name
+                            console.log(city_name);
+                        } else {
+                            console.log("City not supported")
+                        }
+
+                    } else {
+                        console.log("No results found");
+                    }
+                } else {
+                    conslole.log("Geocoder failed due to: " + status);
+                }
+            });
+        }
     </script>
 
 </head>
