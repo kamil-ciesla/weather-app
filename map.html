@@ -14,9 +14,11 @@
 		var latitude = null;
 		var longitude = null;
 		let marker
+        var city_name = null
 		
      // Initialize and add the map
 	function initMap(position) {
+        const geocoder = new google.maps.Geocoder();
         // The location of Uluru
         const uluru = { lat: 50.064651, lng: 19.944981 };
         // The map, centered at Uluru
@@ -41,6 +43,7 @@
 			latitude = marker.getPosition().lat();
 			longitude = marker.getPosition().lng();
 			console.log(latitude+'   '+longitude);
+            geocodeLatLng(geocoder, map)
 		});
 		
 		
@@ -60,6 +63,7 @@
 				longitude = position.coords.longitude;
 				console.log(latitude+'   '+longitude);
 				marker.setPosition(pos)
+                geocodeLatLng(geocoder, map)
               },
               () => {
                 handleLocationError(true, infoWindow, map.getCenter());
@@ -72,6 +76,31 @@
         });
       }	  
 	  
+      function geocodeLatLng(geocoder, map) {  //reverse geocoding
+        const latlng = {                //coordinates
+          lat: parseFloat(latitude),
+          lng: parseFloat(longitude),
+        };
+        geocoder.geocode({ location: latlng }, (results, status) => {
+          if (status === "OK") {
+            if (results[0]) {
+                if (results[0].address_components[2].types[0]=="locality"){      
+                    city_name = results[0].address_components[2].long_name        //large city name
+                    console.log(city_name);
+                } else{
+                    city_name = results[0].address_components[1].long_name        //small city name
+                    console.log(city_name);
+                }
+              
+            } else {
+              console.log("No results found");
+            }
+          } else {
+            conslole.log("Geocoder failed due to: " + status);
+          }
+        });
+      }
+
     </script>
 	
   </head>
