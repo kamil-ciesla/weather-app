@@ -14,23 +14,23 @@
 		var latitude = null;
 		var longitude = null;
 		let marker
-        var city_name = null
+    var city_name = null
 		
      // Initialize and add the map
 	function initMap(position) {
         const geocoder = new google.maps.Geocoder();
-        // The location of Uluru
-        const uluru = { lat: 50.064651, lng: 19.944981 };
-        // The map, centered at Uluru
+        // The location of user
+        const user = { lat: 50.064651, lng: 19.944981 };
+        // The map, centered at user
         const map = new google.maps.Map(document.getElementById("map"), {
           zoom: 10,
-          center: uluru,
+          center: user,
         });
 		
 		marker = new google.maps.Marker({
 				draggable: true,
 				animation: google.maps.Animation.DROP,
-				position: uluru,
+				position: user,
 				map: map,
 				});
 				
