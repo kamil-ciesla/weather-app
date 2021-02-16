@@ -7,6 +7,9 @@
     <script src="chart.js"></script>
     <title>Document</title>
     <style>
+      #forecast-temperature {
+        font-size: 32px;
+      }
       .forecast__tile {
         background-color: rgb(228, 210, 210);
         min-height: 300px;
@@ -36,32 +39,33 @@
       <option id="forecast-day-6" value="5"></option>
       <option id="forecast-day-7" value="6"></option>
     </select>
-    <!-- Not used -->
-    <select id="forecast-hours" name="Forecast menu">
-      <option id="forecast-day-23" value="1">0 AM</option>
-      <option id="forecast-day-23" value="2">1 AM</option>
-      <option id="forecast-day-23" value="2">2 AM</option>
-      <option id="forecast-day-23" value="2">3 AM</option>
-      <option id="forecast-day-23" value="2">4 AM</option>
-      <option id="forecast-day-23" value="2">5 AM</option>
-      <option id="forecast-day-23" value="2">6 AM</option>
-      <option id="forecast-day-23" value="2">7 AM</option>
-      <option id="forecast-day-23" value="2">8 AM</option>
-      <option id="forecast-day-23" value="2">9 AM</option>
-      <option id="forecast-day-23" value="2">10 AM</option>
-      <option id="forecast-day-23" value="2">1 PM</option>
-      <option id="forecast-day-23" value="2">2 PM</option>
-      <option id="forecast-day-23" value="2">3 PM</option>
-      <option id="forecast-day-23" value="2">4 PM</option>
-      <option id="forecast-day-23" value="2">5 AM</option>
-      <option id="forecast-day-23" value="2">6 PM</option>
-      <option id="forecast-day-23" value="2">7 PM</option>
-      <option id="forecast-day-23" value="2">8 PM</option>
-      <option id="forecast-day-23" value="2">9 PM</option>
-      <option id="forecast-day-23" value="2">10 PM</option>
-      <option id="forecast-day-23" value="2">11 PM</option>
-    </select>
-    <!-- <input type="button" value="Get a Forecast" onclick="getForecast()" /> -->
+    <!-- Currently not used -->
+    <!-- <select id="forecast-hours" name="Forecast menu">
+      <option id="forecast-hour-0" value="0">0 AM</option>
+      <option id="forecast-hour-1" value="1">1 AM</option>
+      <option id="forecast-hour-2" value="2">2 AM</option>
+      <option id="forecast-hour-3" value="3">3 AM</option>
+      <option id="forecast-hour-4" value="4">4 AM</option>
+      <option id="forecast-hour-5" value="5">5 AM</option>
+      <option id="forecast-hour-6" value="6">6 AM</option>
+      <option id="forecast-hour-7" value="7">7 AM</option>
+      <option id="forecast-hour-8" value="8">8 AM</option>
+      <option id="forecast-hour-9" value="9">9 AM</option>
+      <option id="forecast-hour-10" value="10">10 AM</option>
+      <option id="forecast-hour-11" value="11">11 AM</option>
+      <option id="forecast-hour-12" value="12">12 AM</option>
+      <option id="forecast-hour-13" value="13">1 PM</option>
+      <option id="forecast-hour-14" value="14">2 PM</option>
+      <option id="forecast-hour-15" value="15">3 PM</option>
+      <option id="forecast-hour-16" value="16">4 PM</option>
+      <option id="forecast-hour-17" value="17">5 AM</option>
+      <option id="forecast-hour-18" value="18">6 PM</option>
+      <option id="forecast-hour-19" value="19">7 PM</option>
+      <option id="forecast-hour-20" value="20">8 PM</option>
+      <option id="forecast-hour-21" value="21">9 PM</option>
+      <option id="forecast-hour-22" value="22">10 PM</option>
+      <option id="forecast-hour-23" value="23">11 PM</option>
+    </select> -->
     <div class="forecast-container">
       <div id="forecast__tile-1" class="forecast__tile">
         <img
@@ -70,7 +74,7 @@
           alt="Forecast icon"
         />
         <hr />
-        <span id="forecast-temp"></span><br />
+        <span id="forecast-temperature"></span><br />
         <span id="forecast-pressure"></span><br />
         <span id="forecast-wind-speed"></span> <br />
         <span id="forecast-humidity"></span>
@@ -89,19 +93,25 @@
       // API call: https://api.openweathermap.org/data/2.5/onecall?lat=50.0647&lon=19.9450&lang=pl&appid=fbc7ccb8414c8df84a06d4997ac35fdd
       // temperature in Kelvin (K - 273.15 = C)
 
-      fillForecastMenu()
-      // Get the forecast of a current today
-      getForecast(0)
+      //   const location = { lat: 50.0647, lon: 19.945 }
 
+      //   GLOBAL VARIABLES
+      const loc = { lat: 50.0647, lon: 19.945 }
+      const apiKey = 'fbc7ccb8414c8df84a06d4997ac35fdd'
+      const language = 'pl'
+
+      fillForecastMenu()
+
+      //   Get the daily forecast of a current today
+      getForecast(0, location, language, apiKey)
+
+      //   Get the forecast of an X day (from the menu)
       let onChange = function (event) {
         let menuDaysState = this.value
-        // Get the forecast of a current day
-        getForecast(menuDaysState)
+        getForecast(menuDaysState, location, language, apiKey)
       }
-
-      const input = document.getElementById('forecast-days')
-      //   Record a state of the menu
-      input.addEventListener('input', onChange, false)
+      const menuInput = document.getElementById('forecast-days')
+      menuInput.addEventListener('input', onChange, false)
 
       function fillForecastMenu() {
         const date = new Date()
@@ -117,44 +127,41 @@
         weekday[5] = 'Friday'
         weekday[6] = 'Saturday'
 
-        // First - Today; Second - Tomorrow
+        // First - Today; Second - Tomorrow; + the rest
         for (let i = 0; i < 5; i++) {
           document.getElementById(`forecast-day-${i + 3}`).innerHTML =
-            weekday[i + 1]
+            weekday[calcDayAfterTomorrow(weekdayNum) + i]
+        }
+
+        function calcDayAfterTomorrow(today) {
+          const thatDay = today + 2
+          if (thatDay >= 7) {
+            return 0
+          } else {
+            return thatDay
+          }
         }
       }
 
-      async function getForecast(menuDaysState, menuHoursState) {
+      async function getForecast(menuDaysState, location, language) {
         const response = await fetch(
-          'https://api.openweathermap.org/data/2.5/onecall?lat=50.0647&lon=19.9450&lang=pl&appid=fbc7ccb8414c8df84a06d4997ac35fdd'
+          `https://api.openweathermap.org/data/2.5/onecall?lat=${loc.lat}&lon=${loc.lon}&lang=${language}&appid=${apiKey}`
         )
+        // Fetched data
         const data = await response.json()
         console.log(data)
 
         const KELVIN = 273.15
-        const dayAccess = data.daily[menuDaysState]
 
-        const temp = (dayAccess.temp.day - KELVIN).toFixed(2)
-        const iconURL = `http://openweathermap.org/img/wn/${dayAccess.weather[0].icon}@2x.png`
-        const iconAlt = dayAccess.weather[0].description
-
-        document.getElementById('forecast-temp').innerHTML = temp + '°C'
-        document.getElementById('forecast-icon').src = iconURL
-        document.getElementById('forecast-icon').alt = iconAlt
-        document.getElementById('forecast-pressure').innerHTML =
-          dayAccess.pressure + ' hPa'
-        document.getElementById('forecast-humidity').innerHTML =
-          dayAccess.humidity + '%'
-        document.getElementById('forecast-wind-speed').innerHTML =
-          dayAccess.wind_speed + ' mph'
-
-        // If the day is TODAY
+        // If the day is TODAY or TOMORROW
         if (menuDaysState == 0) {
           document.getElementById('forecast-hourly-chart').style.visibility =
             'visible'
           const hourAccess = data.hourly
           const hoursX = []
           const tempsY = []
+
+          //   Apply hourly forecast for the first day
           for (let i = 0; i < 24; i++) {
             tempsY.push((hourAccess[i].temp - KELVIN).toFixed(2))
             hoursX.push(i)
@@ -164,6 +171,22 @@
           document.getElementById('forecast-hourly-chart').style.visibility =
             'hidden'
         }
+
+        const dayAccess = data.daily[menuDaysState]
+
+        const temp = (dayAccess.temp.day - KELVIN).toFixed(2)
+        const iconURL = `http://openweathermap.org/img/wn/${dayAccess.weather[0].icon}@2x.png`
+        const iconAlt = dayAccess.weather[0].description
+
+        document.getElementById('forecast-temperature').innerHTML = temp + '°C'
+        document.getElementById('forecast-icon').src = iconURL
+        document.getElementById('forecast-icon').alt = iconAlt
+        document.getElementById('forecast-pressure').innerHTML =
+          dayAccess.pressure + ' hPa'
+        document.getElementById('forecast-humidity').innerHTML =
+          dayAccess.humidity + '%'
+        document.getElementById('forecast-wind-speed').innerHTML =
+          dayAccess.wind_speed + ' mph'
       }
 
       function createChart(hoursX, tempsY) {
@@ -208,6 +231,7 @@
             },
           },
         })
+        return myChart
       }
     </script>
   </body>

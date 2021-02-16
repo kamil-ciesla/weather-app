@@ -1,22 +1,25 @@
 # weather-app
-A website app with functionalites like checking current weather, forecast, and gps location
+Last update on 13/02/2021 23:09
+Description: A website app with functionalites like checking current weather, forecast, and gps location
+
+Working on branches: 
+use very short names, so to checkout easily. 
+One branch - one issue. 
+Branches which are pushed to remote(github), are deleted only after being merged to 'main' branch.
 
 current feature to work on:
-1. module displaying current weather (Kamil)
-    -(place, rain, humidity, wind)
+1. current weather (extacly now) [place, rain, humidity, wind] //prototype done, more later
+    - small animations, (sunny, cloudy, rain etc) //todo
 
-2. gps detection
-    (module that detects current device location)
-    - display city
-    
-3. display map (Piotrek)
-    (connect it with gps detection later)
-    
-4. forecast (Krzysiek)
-    - form for choosing date and hour of forecast
-5. Air polution (Alex)
+2. map (getting user's location, in order to show 1.current weather and 5.air pollution)
+    - clicking on map reevaluates displayed weather data (currently it does only on startup) //todo
 
-6. website design // Later
-    - structure (Kamil)
-    - style 
-    - phone version
+4. daily forecast for 7 days. (with simple chart) //todo
+
+5. air pollution (next to 1.current weather, displayed on demand with a button) //done
+
+6. Settings (units, languagues) (provided by openweather.org) //todo
+
+
+
+
