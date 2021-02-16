@@ -25,7 +25,10 @@
                 <li>MAP</li>
             </ul>
         </div>
-        <div id="widget"></div>
+        <div id="widget">
+            <div id="map"></div>
+
+        </div>
 
     </div>
     <script>
@@ -36,12 +39,16 @@
             lon: 19.945
         }
 
-        function updateLocation(coordinates) {
+        function updateLocation(newCoordinates) {
+            coordinates.lat = newCoordinates.lat;
+            coordinates.lon = newCoordinates.lon;
             locationDiv = $('#location');
             locationDiv.text('For: ' + coordinates.lat + ', ' + coordinates.lon);
         }
         updateLocation(coordinates);
     </script>
+    <script src='map.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=initMap&libraries=&v=weekly" async></script>
 
 </body>
 
