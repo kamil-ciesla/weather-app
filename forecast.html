@@ -30,7 +30,7 @@
 
   <body>
     <h1>Weather forecast</h1>
-    <select id="forecast-days" name="Forecast menu">
+    <select id="forecast-days" name="Forecast daily menu">
       <option value="0">Today</option>
       <option value="1">Tomorrow</option>
       <option id="forecast-day-3" value="2"></option>
@@ -117,8 +117,8 @@
         const date = new Date()
 
         //   0 - Sun; 6 - Sat
-        const weekdayNum = date.getDay()
-        const weekday = Array(7)
+        const today = date.getDay()
+        let weekday = Array(7)
         weekday[0] = 'Sunday'
         weekday[1] = 'Monday'
         weekday[2] = 'Tuesday'
@@ -127,19 +127,15 @@
         weekday[5] = 'Friday'
         weekday[6] = 'Saturday'
 
-        // First - Today; Second - Tomorrow; + the rest
-        for (let i = 0; i < 5; i++) {
-          document.getElementById(`forecast-day-${i + 3}`).innerHTML =
-            weekday[calcDayAfterTomorrow(weekdayNum) + i]
-        }
+        // Array is extended * 2 to avoid " index out of range"
+        weekday = [...weekday, ...weekday]
+        console.log(weekday)
 
-        function calcDayAfterTomorrow(today) {
-          const thatDay = today + 2
-          if (thatDay >= 7) {
-            return 0
-          } else {
-            return thatDay
-          }
+        // Forecast menu options from a day after tomorrow
+        for (let i = 2; i < 7; i++) {
+          console.log(i)
+          document.getElementById(`forecast-day-${i + 1}`).innerHTML =
+            weekday[today + i]
         }
       }
 
