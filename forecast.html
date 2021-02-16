@@ -92,23 +92,23 @@
       // lang = pl
       // API call: https://api.openweathermap.org/data/2.5/onecall?lat=50.0647&lon=19.9450&lang=pl&appid=fbc7ccb8414c8df84a06d4997ac35fdd
       // temperature in Kelvin (K - 273.15 = C)
-
       //   const location = { lat: 50.0647, lon: 19.945 }
 
       //   GLOBAL VARIABLES
-      const loc = { lat: 50.0647, lon: 19.945 }
+      const userLocation = { lat: 50.0647, lon: 19.945 }
       const apiKey = 'fbc7ccb8414c8df84a06d4997ac35fdd'
       const language = 'pl'
 
+      // Fill the menu with subsequent dates
       fillForecastMenu()
 
-      //   Get the daily forecast of a current today
-      getForecast(0, location, language, apiKey)
+      //   Init with a forecast of a current today
+      getForecast(0, userLocation, language, apiKey)
 
-      //   Get the forecast of an X day (from the menu)
+      //   Get the forecast of an X day, track input from the menu
       let onChange = function (event) {
         let menuDaysState = this.value
-        getForecast(menuDaysState, location, language, apiKey)
+        getForecast(menuDaysState, userLocation, language, apiKey)
       }
       const menuInput = document.getElementById('forecast-days')
       menuInput.addEventListener('input', onChange, false)
@@ -116,7 +116,7 @@
       function fillForecastMenu() {
         const date = new Date()
 
-        //   0 - Sun; 6 - Sat
+        // Get a number of a current day
         const today = date.getDay()
         let weekday = Array(7)
         weekday[0] = 'Sunday'
@@ -129,37 +129,35 @@
 
         // Array is extended * 2 to avoid " index out of range"
         weekday = [...weekday, ...weekday]
-        console.log(weekday)
 
         // Forecast menu options from a day after tomorrow
         for (let i = 2; i < 7; i++) {
-          console.log(i)
           document.getElementById(`forecast-day-${i + 1}`).innerHTML =
             weekday[today + i]
         }
       }
 
-      async function getForecast(menuDaysState, location, language) {
+      async function getForecast(menuDaysState, loc, language) {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/onecall?lat=${loc.lat}&lon=${loc.lon}&lang=${language}&appid=${apiKey}`
         )
         // Fetched data
         const data = await response.json()
-        console.log(data)
 
         const KELVIN = 273.15
 
-        // If the day is TODAY or TOMORROW
+        // If the day is TODAY
         if (menuDaysState == 0) {
           document.getElementById('forecast-hourly-chart').style.visibility =
             'visible'
-          const hourAccess = data.hourly
+
+          // Data used to make a chart
           const hoursX = []
           const tempsY = []
 
           //   Apply hourly forecast for the first day
           for (let i = 0; i < 24; i++) {
-            tempsY.push((hourAccess[i].temp - KELVIN).toFixed(2))
+            tempsY.push((data.hourly[i].temp - KELVIN).toFixed(2))
             hoursX.push(i)
           }
           createChart(hoursX, tempsY)
@@ -168,6 +166,7 @@
             'hidden'
         }
 
+        // Daily forecast depends on the user's choice - menuDaysState
         const dayAccess = data.daily[menuDaysState]
 
         const temp = (dayAccess.temp.day - KELVIN).toFixed(2)
@@ -203,16 +202,6 @@
               },
             ],
           },
-          //   options: {
-          //     scales: {
-          //       yAxes: [
-          //         {
-          //           ticks: {
-          //             beginAtZero: true,
-          //           },
-          //         },
-          //       ],
-          //     },
           options: {
             scales: {
               yAxes: [
