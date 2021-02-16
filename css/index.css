@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Monda&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    background-color: rgb(17, 17, 17);
+    background-color: rgb(255, 255, 255);
 }
 
 #container {
@@ -13,26 +15,61 @@ body {
     flex-direction: column;
 }
 
-.widget {
-    width: 15vw;
-    height: 25%;
+#site-title {
+    font-family: 'Righteous';
+    margin: auto;
+    font-size: 3em;
+    margin-top: 1%;
+}
+
+#location {
+    margin: auto;
+    font-family: 'Righteous';
+}
+
+#nav-bar {
+    border: 0.3em solid rgb(0, 110, 255);
+    border-radius: 10px;
+    width: 30vw;
+    height: 10vh;
+    margin: auto;
+    margin-top: 1%;
+    font-family: 'Monda', sans-serif;
+    color: rgb(0, 110, 255);
+}
+
+#nav-bar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 1.1em;
+}
+
+li {
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: white;
+    list-style-type: none;
+}
+
+li:hover {
+    background-color: cornflowerblue;
     color: white;
-    padding: 5%;
+    cursor: pointer;
 }
 
-#current-weather {
-    background-color: rgb(106, 106, 255);
-}
-
-#gps {
-    background-color: rgb(209, 98, 98);
-}
-
-#forecast {
-    background-color: burlywood;
-}
-
-#map {
-    background-color: rgb(93, 196, 93);
+#widget {
+    margin: auto;
+    width: 60vw;
+    height: 60vh;
+    margin-top: 1%;
+    border: 0.3em solid rgb(0, 110, 255);
 }
