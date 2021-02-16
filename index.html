@@ -7,25 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css">
     <title>Weather app</title>
+    <script src='jquery-3.5.1.js'></script>
 </head>
 
 <body>
     <div id="container">
-        <div id="current-weather" class="widget">
-            CURRENT WEATHER
+        <div id="site-title">
+            WEATHER
         </div>
-        <div id="gps" class="widget">
-            GPS
+        <div id="location">
+            FOR CITY X,Y
         </div>
-        <div id="forecast" class="widget">
-            FORECAST
+        <div id="nav-bar">
+            <ul>
+                <li>TODAY</li>
+                <li>NEXT 7-DAYS</li>
+                <li>MAP</li>
+            </ul>
         </div>
-        <div id="map" class="widget">
-            MAP
-        </div>
-    </div>
+        <div id="widget"></div>
 
     </div>
+    <script>
+        const apiKey = 'b8801437aa00cae409040174e8dadb7c';
+        let language = 'pl';
+        let coordinates = {
+            lat: 50.0647,
+            lon: 19.945
+        }
+
+        function updateLocation(coordinates) {
+            locationDiv = $('#location');
+            locationDiv.text('For: ' + coordinates.lat + ', ' + coordinates.lon);
+        }
+        updateLocation(coordinates);
+    </script>
+
 </body>
 
 </html>
