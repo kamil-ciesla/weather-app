@@ -38,6 +38,7 @@ body {
     margin-top: 1%;
     font-family: 'Monda', sans-serif;
     color: rgb(0, 110, 255);
+    font-size: 1em;
 }
 
 #nav-bar ul {
@@ -80,4 +81,5 @@ li:hover {
 #map {
     width: 100%;
     height: 100%;
+    display: none;
 }
