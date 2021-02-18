@@ -75,7 +75,7 @@ async function getForecast(menuDaysState, loc, language) {
 function createChart(hoursX, tempsY) {
     const ctx = document
         .getElementById('forecast-hourly-chart')
-        .getContext('2d')
+        .getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'line',
         data: {
