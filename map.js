@@ -1,7 +1,7 @@
 var latitude = null;
 var longitude = null;
 let marker
-var city_name = null
+var placeName = null
 
 // Initialize and add the map
 function initMap() {
@@ -48,10 +48,12 @@ function initMap() {
         } else {
             console.log("Browser doesn't support Geolocation ");
         }
+
         map.setCenter(coordinates);
         marker.setPosition(coordinates);
+        console.log(coordinates);
         // issues with two lines below
-        let locationName = await getLocationName(geocoder);
+        let locationName = await getLocationName(geocoder, coordinates);
         updateLocation(coordinates, locationName);
     });
 }
@@ -74,7 +76,7 @@ function getCurrentPosition() {
 }
 
 function getLocationName(geocoder, coordinates) { //reverse geocoding
-    city_name = null;
+    placeName = null;
     const latlng = { //coordinates
         lat: parseFloat(latitude),
         lng: parseFloat(longitude),
@@ -85,17 +87,17 @@ function getLocationName(geocoder, coordinates) { //reverse geocoding
                 if (status === "OK") {
                     if (results[0]) {
                         if (results[0].address_components[2].types[0] == "locality") { //different types of cities
-                            city_name = results[0].address_components[2].long_name
+                            placeName = results[0].address_components[2].long_name
                         } else if (results[0].address_components[1].types[0] == "locality") {
-                            city_name = results[0].address_components[1].long_name
+                            placeName = results[0].address_components[1].long_name
                         } else if (results[0].address_components[3].types[0] == "locality") {
-                            city_name = results[0].address_components[3].long_name
+                            placeName = results[0].address_components[3].long_name
                         } else if (results[0].address_components[4].types[0] == "locality") {
-                            city_name = results[0].address_components[4].long_name
+                            placeName = results[0].address_components[4].long_name
                         } else if (results[0].address_components[2].types[0] == "postal_town") {
-                            city_name = results[0].address_components[2].long_name
+                            placeName = results[0].address_components[2].long_name
                         } else if (results[0].address_components[3].types[0] == "postal_town") {
-                            city_name = results[0].address_components[3].long_name
+                            placeName = results[0].address_components[3].long_name
                         }
                     } else {
                         //console.log("No results found");
@@ -103,7 +105,7 @@ function getLocationName(geocoder, coordinates) { //reverse geocoding
                 } else {
                     //conslole.log("Geocoder failed due to: " + status);
                 }
-                resolve(city_name);
+                resolve(placeName);
             }
         );
     })

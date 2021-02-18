@@ -22,7 +22,7 @@
         </div>
         <div id="nav-bar">
             <ul>
-                <li>TODAY</li>
+                <li id='weather-today-button'>TODAY</li>
                 <li>NEXT 7-DAYS</li>
                 <li id='map-button'>MAP</li>
             </ul>
@@ -53,22 +53,31 @@
             locationName = name;
             $('#location').text(locationName + ' ' + coordinates.lat.toPrecision(4) + ', ' + coordinates.lon.toPrecision(4));
         }
+        let currentWidget = $('#weather-today');
 
+        function addWidgetButton(buttonName, widgetName) {
+            $(buttonName).click(function() {
+                if (currentWidget !== null) {
+                    currentWidget.hide();
+                }
+                $(widgetName).show();
+                currentWidget = $(widgetName);
+            });
+        }
         const apiKey = 'b8801437aa00cae409040174e8dadb7c';
         let language = 'pl';
         let coordinates = {
-            lat: 0,
-            lon: 0,
-        }
-        coordinates = getCurrentPosition();
+                lat: 49.88,
+                lon: 21.73,
+            }
+            //coordinates = getCurrentPosition();
         let locationName = null;
-        $('#map-button').click(function() {
-            $('#map').show();
-        });
+        addWidgetButton('#map-button', '#map');
+        addWidgetButton('#weather-today-button', '#weather-today');
     </script>
-    <!--
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=initMap&libraries=&v=weekly" async></script>
-    -->
+
 
     <script src='weather-today.js'></script>
 

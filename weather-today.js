@@ -1,13 +1,8 @@
-const userLocation = {
-    lat: 50.0647,
-    lon: 19.945
-}
-
 // Fill the menu with subsequent dates
 fillForecastMenu()
 
 // Init with a forecast of a current today
-getForecast(0, userLocation, language, apiKey)
+getForecast(0, coordinates, language, apiKey)
 
 function fillForecastMenu() {
     const date = new Date()
