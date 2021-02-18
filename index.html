@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/index.css">
     <title>Weather app</title>
     <script src='jquery-3.5.1.js'></script>
+    <script src="chart.js"></script>
+
 </head>
 
 <body>
@@ -27,11 +29,24 @@
         </div>
         <div id="widget">
             <div id="map"></div>
-
+            <div id="weather-today">
+                <div id="current-weather">
+                    <img id="forecast-icon" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
+                    <hr />
+                    <span id="forecast-temperature"></span><br />
+                    <span id="forecast-pressure"></span><br />
+                    <span id="forecast-wind-speed"></span> <br />
+                    <span id="forecast-humidity"></span>
+                </div>
+                <div id="forecast-hourly-chart-container">
+                    <canvas id="forecast-hourly-chart" width="500" height="200" maintainAspectRatio="false"></canvas>
+                </div>
+            </div>
         </div>
 
     </div>
     <script src='map.js'></script>
+
     <script>
         function updateLocation(newCoordinates, name) {
             coordinates = newCoordinates;
@@ -51,7 +66,11 @@
             $('#map').show();
         });
     </script>
+    <!--
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=initMap&libraries=&v=weekly" async></script>
+    -->
+
+    <script src='weather-today.js'></script>
 
 
 </body>
