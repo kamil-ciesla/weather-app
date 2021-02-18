@@ -15,11 +15,9 @@
 <body>
     <div id="container">
         <div id="site-title">
-            WEATHER
+            SIMPLEWEATHER
         </div>
-        <div id="location">
-            FOR CITY X,Y
-        </div>
+        <div id="location"></div>
         <div id="nav-bar">
             <ul>
                 <li id='weather-today-button'>TODAY</li>
@@ -45,13 +43,16 @@
         </div>
 
     </div>
+    <script>
+        //Global variables
+    </script>
     <script src='map.js'></script>
 
     <script>
-        function updateLocation(newCoordinates, name) {
-            coordinates = newCoordinates;
+        function updateLocation(newCoords, name) {
+            coords = newCoords;
             locationName = name;
-            $('#location').text(locationName + ' ' + coordinates.lat.toPrecision(4) + ', ' + coordinates.lon.toPrecision(4));
+            $('#location').text(locationName + ' ' + coords.lat.toPrecision(4) + ', ' + coords.lng.toPrecision(4));
         }
         let currentWidget = $('#weather-today');
 
@@ -66,12 +67,13 @@
         }
         const apiKey = 'b8801437aa00cae409040174e8dadb7c';
         let language = 'pl';
-        let coordinates = {
-                lat: 49.88,
-                lon: 21.73,
+        const units = 'metric';
+        var coords = {
+                lat: 49.87,
+                lng: 21.74,
             }
-            //coordinates = getCurrentPosition();
-        let locationName = null;
+            //coords = getCurrentPosition();
+        var locationName = null;
         addWidgetButton('#map-button', '#map');
         addWidgetButton('#weather-today-button', '#weather-today');
     </script>
@@ -80,6 +82,9 @@
 
 
     <script src='weather-today.js'></script>
+    <script>
+        getTodayWeather(coords, language, apiKey)
+    </script>
 
 
 </body>
