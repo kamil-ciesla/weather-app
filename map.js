@@ -1,7 +1,6 @@
 // Initialize and add the map
 function initMap() {
     const geocoder = new google.maps.Geocoder();
-
     window.addEventListener("load", async() => {
         // Try HTML5 geolocation.
         newCoordinates = await getCurrentPosition();
@@ -28,11 +27,17 @@ function initMap() {
 
         google.maps.event.addListener(marker, 'dragend', async function(ev) {
             marker.setAnimation(4); // fall
-            coordinates.lat = marker.getPosition().lat();
-            coordinates.lng = marker.getPosition().lng();
 
+            coords.lat = marker.getPosition().lat();
+            coords.lng = marker.getPosition().lng();
             let locationName = await getLocationName(geocoder);
             updateLocation(coordinates, locationName);
+
+            getTodayWeather(coords, language, units, apiKey)
+                .then(data => {
+                    displayCurrentWeather(data);
+                    createChart(data);
+                })
 
         });
         map.setCenter(coordinates);
@@ -42,22 +47,7 @@ function initMap() {
     });
 }
 
-function getCurrentPosition() {
-    return new Promise(function(resolve, reject) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const coordinates = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-                    resolve(coordinates);
-                },
-                () => reject(null));
-        } else
-            reject(null);
-    })
-}
+
 
 //reverse geocoding
 function getLocationName(geocoder) {
@@ -92,5 +82,22 @@ function getLocationName(geocoder) {
                 resolve(locationName);
             }
         );
+    })
+}
+
+function getCurrentPosition() {
+    return new Promise(function(resolve, reject) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const coordinates = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    resolve(coordinates);
+                },
+                () => reject(null));
+        } else
+            reject(null);
     })
 }

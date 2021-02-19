@@ -57,24 +57,21 @@
 
         //forecast data properties
         const apiKey = 'b8801437aa00cae409040174e8dadb7c';
-        var coords = {
-            lat: 49.87,
-            lng: 21.74,
-        }
         let language = 'pl';
         const units = 'metric';
-        //coords = getCurrentPosition();
-        var locationName = null;
 
         const mapLoadingScript = document.createElement('script');
         mapLoadingScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=initMap&libraries=&v=weekly';
+
         document.body.append(mapLoadingScript);
 
-        getTodayWeather(coords, language, units, apiKey)
-            .then(data => {
-                displayCurrentWeather(data);
-                createChart(data);
-            })
+        getCurrentPosition().then(coords => {
+            getTodayWeather(coords, language, units, apiKey)
+                .then(data => {
+                    displayCurrentWeather(data);
+                    createChart(data);
+                })
+        });
     </script>
 </body>
 

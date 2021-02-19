@@ -1,6 +1,5 @@
-function updateLocation(newCoords, name) {
+function updateLocation(newCoords, locationName) {
     coords = newCoords;
-    locationName = name;
     $('#location').text(locationName + ' ' + coords.lat.toPrecision(4) + ', ' + coords.lng.toPrecision(4));
 }
 
