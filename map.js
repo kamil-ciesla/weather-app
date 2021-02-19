@@ -1,24 +1,27 @@
+class GoogleMap {
+    constructor() {
+        this.geocoder = new google.maps.Geocoder();
+    }
+}
 // Initialize and add the map
 function initMap() {
     const geocoder = new google.maps.Geocoder();
     window.addEventListener("load", async() => {
         // Try HTML5 geolocation.
-        newCoordinates = await getCurrentPosition();
-        if (newCoordinates !== null) {
-            coordinates = newCoordinates;
-        } else {
-            console.log("Browser doesn't support Geolocation ");
-        }
+        const coords = await getCurrentPosition();
+        const locationName = await getLocationName(geocoder, coords);
+        forecast.update(coords, locationName);
+
         // The map, centered at User
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 10,
-            center: coordinates,
+            center: forecast.coords,
         });
 
         const marker = new google.maps.Marker({
             draggable: true,
             animation: google.maps.Animation.DROP,
-            position: coordinates,
+            position: forecast.coords,
             map: map,
         });
         google.maps.event.addListener(marker, "dragstart", function(ev) {
@@ -27,33 +30,23 @@ function initMap() {
 
         google.maps.event.addListener(marker, 'dragend', async function(ev) {
             marker.setAnimation(4); // fall
-
-            coords.lat = marker.getPosition().lat();
-            coords.lng = marker.getPosition().lng();
-            let locationName = await getLocationName(geocoder);
-            updateLocation(coordinates, locationName);
-
-            getTodayWeather(coords, language, units, apiKey)
-                .then(data => {
-                    displayCurrentWeather(data);
-                    createChart(data);
-                })
-
+            const coords = {
+                lat: marker.getPosition().lat(),
+                lng: marker.getPosition().lng()
+            }
+            const locationName = await getLocationName(geocoder, coords);
+            forecast.update(coords, locationName);
         });
-        map.setCenter(coordinates);
-        marker.setPosition(coordinates);
-        locationName = await getLocationName(geocoder);
-        updateLocation(coordinates, locationName);
+        map.setCenter(forecast.coords);
+        marker.setPosition(forecast.coords);
     });
 }
 
-
-
 //reverse geocoding
-function getLocationName(geocoder) {
+function getLocationName(geocoder, coords) {
     const latlng = { //coordinates
-        lat: parseFloat(coordinates.lat),
-        lng: parseFloat(coordinates.lng),
+        lat: parseFloat(coords.lat),
+        lng: parseFloat(coords.lng),
     };
     return new Promise(resolve => {
         geocoder.geocode({ location: latlng },
