@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Current Weather</title>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,500" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 400;
+            font-size: 1.3em;
+            color: #fff;
+            text-shadow: .1em .1em 0 rgba(0, 0, 0, 0.3);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(to right top, #99bbcb, #a5c7d7, #b1d4e2, #bde0ee, #c9edfa);
+        }
+        
+        h1 {
+            margin: 0 auto;
+            text-align: center;
+            color: #fff;
+            font-size: 3em;
+        }
+        
+        #weather,
+        #form {
+            text-align: center
+        }
+        
+        body.sunny {
+            background-image: linear-gradient(to right top, #ff4e50, #ff713e, #ff932b, #ffb41d, #f9d423);
+            /* background gradient for sunny weather */
+        }
+        
+        body.cloudy {
+            background-image: linear-gradient(to right top, #63747c, #71858e, #7f96a0, #8da8b2, #9bbac5);
+            /* background gradient for cloudy weather */
+        }
+        
+        body.rainy {
+            background-image: linear-gradient(to right top, #637c7b, #718e8c, #7ea09e, #8db2b0, #9bc5c3);
+            /* background gradient for rainy weather */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="weather">
+        <div id="description"></div>
+        <h1 id="location"></h1>
+        <div id="ctemp"></div>
+        <div id="humidity"></div>
+        <div id="wind"></div>
+    </div>
+    <script lang="text/javascript">
+        function getWeather(cityName) {
+            //var key = 'yourKeyHere'; //insert your key here
+            var key = 'b8801437aa00cae409040174e8dadb7c'; //insert your key here
+
+            fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key)
+                .then(function(resp) {
+                    return resp.json() // onvert data to json
+                })
+                .then(function(data) {
+                    drawWeather(data); //call drawWeather
+                })
+                .catch(function() {
+                    //catch errors
+                });
+        }
+
+        function drawWeather(d) {
+            var celcius = Math.round(parseFloat(d.main.temp) - 273.15); //kelvin to celcius
+            var fahrenheit = Math.round(((parseFloat(d.main.temp) - 273.15) * 1.8) + 32); //kelvin to farenheit
+
+            document.getElementById("description").innerHTML = d.weather[0].description.charAt(0).toUpperCase() + d.weather[0].description.slice(1); //capitalized description
+            document.getElementById("ctemp").innerHTML = "Temperature: " + celcius + "&deg;C";
+            //document.getElementById("ftemp").innerHTML = "Temperature: " + fahrenheit + "&deg;F";
+            document.getElementById("location").innerHTML = d.name + ", " + d.sys.country;
+            document.getElementById("humidity").innerHTML = "Humidity: " + d.main.humidity + "%";
+            document.getElementById("wind").innerHTML = "Wind speed: " + Math.round(d.wind.speed * 3.6 * 100) / 100 + " km/h"; //wind speed, default: m/s, converted to km/h
+
+            if (description.indexOf("rain") > 0) {
+                document.body.className = "rainy";
+            } else if (description.indexOf("cloud") > 0) {
+                document.body.className = "cloudy";
+            } else if (description.indexOf("sunny") > 0) {
+                document.body.className = "sunny";
+            }
+        }
+        /*window.onload = function() {
+          getWeather(6167865);
+        }*/
+        function clickButton() {
+            getWeather(document.getElementById("city").value);
+            document.getElementById("form").outerHTML = "";
+        }
+    </script>
+    <div id="form">
+        <label for="city">City:</label><br>
+        <input type="text" id="city" name="city"><br>
+        <button id="serach" onclick="clickButton()">Search</button>
+    </div>
+    <div id="weather">
+        <div id="description"></div>
+        <h1 id="location"></h1>
+        <div id="ctemp"></div>
+        <div id="humidity"></div>
+        <div id="wind"></div>
+    </div>
+</body>
+
+</html>
