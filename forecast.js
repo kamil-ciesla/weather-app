@@ -5,25 +5,17 @@ class Forecast {
         this.units = units;
         this.coords;
         this.locationName;
-        this.navOptions = {
-            hourlyChartDiv: $('#hourly-chart'),
-            mapDiv: $('#map'),
-            airPollutionDiv: $('#air-pollution')
-        }
-        for (let key of Object.keys(this.navOptions)) {
-            this._switchNavOption(this.navOptions[key]);
-        }
+        this.currentContent = '#hourly-chart';
+        $(this.currentContent).show();
+        $('#hourly-chart-button').click(() => this._switchContent('#hourly-chart'));
+        $('#air-pollution-button').click(() => this._switchContent('#air-pollution'));
+        $('#map-button').click(() => this._switchContent('#map'));
+
     }
-    _switchNavOption(clickedOption) {
-        clickedOption.click(() => {
-            for (let key of Object.keys(this.navOptions)) {
-                if (this.navOptions[key] == clickedOption) {
-                    $(this.navOptions[key]).show();
-                } else {
-                    $(this.navOptions[key]).hide();
-                }
-            }
-        })
+    _switchContent(target) {
+        $(this.currentContent).hide();
+        $(target).show();
+        this.currentContent = target;
     }
 
     async update(coords, locationName) {
@@ -36,6 +28,7 @@ class Forecast {
         }).then(data => {
             this.displayCurrentWeather(data);
             this.createHourlyChart(data);
+            this.displayAirPollution()
         })
     }
     async displayCurrentWeather(data) {
@@ -50,6 +43,24 @@ class Forecast {
         $('#forecast-pressure').text(data.current.pressure + ' hPa');
         $('#forecast-humidity').text(data.current.humidity + '%');
         $('#forecast-wind-speed').text(data.current.wind_speed + ' mph');
+    }
+    displayAirPollution() {
+        fetch(
+            `http://api.openweathermap.org/data/2.5/air_pollution?lat=${this.coords.lat}&lon=${this.coords.lng}&appid=${this.apiKey}`
+        ).then(response => {
+            return response.json()
+        }).then(d => {
+            $('#index').html(`Air quality index: ${d.list[0].main.aqi}`);
+            $('#description').html(`(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)`);
+            $('#co').html(`Сoncentration of CO (Carbon monoxide): <b>${d.list[0].components.co}</b> μg/m3`);
+            $('#no').html(`Сoncentration of NO (Nitrogen monoxide): <b>${d.list[0].components.no}</b> μg/m3`);
+            $('#no2').html(`Сoncentration of NO<sub>2</sub> (Nitrogen dioxide): <b>${d.list[0].components.no2}</b> μg/m3`);
+            $('#o3').html(`Сoncentration of O<sub>3</sub> (Ozone): <b>${d.list[0].components.o3}</b> μg/m3`);
+            $('#so2').html(`Сoncentration of SO<sub>2</sub> (Sulphur dioxide): <b>${d.list[0].components.so2}</b> μg/m3`);
+            $('#pm2_5').html(`Сoncentration of PM<sub>2.5</sub> (Fine particles matter): <b>${d.list[0].components.pm2_5}</b> μg/m3`);
+            $('#pm10').html(`Сoncentration of PM<sub>10</sub> (Coarse particulate matter): <b>${d.list[0].components.pm10}</b> μg/m3`);
+            $('#nh3').html(`Сoncentration of NH<sub>3</sub> (Ammonia): <b>${d.list[0].components.nh3}</b> μg/m3`);
+        })
     }
     createHourlyChart(data) {
         const hoursX = [];

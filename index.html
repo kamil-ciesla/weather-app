@@ -21,9 +21,10 @@
             <div id="nav-bar">
                 <ul>
                     <li> </li>
-                    <li>Hourly</li>
-                    <li>Air Pollution</li>
-                    <li>Map</li>
+                    <li id="hourly-chart-button">Hourly</li>
+                    <li id="seven-days">Seven days</li>
+                    <li id="air-pollution-button">Air Pollution</li>
+                    <li id="map-button">Map</li>
                 </ul>
             </div>
             <div id="forecast">
@@ -42,11 +43,23 @@
                     <br>
                     <span id="forecast-humidity"></span>
                 </div>
-                <div id="map"></div>
 
                 <div id="hourly-chart">
-                    <canvas id="hourly-chart-canvas" width="3000" height="1700"></canvas>
+                    <canvas id="hourly-chart-canvas" width="1400" height="900"></canvas>
                 </div>
+                <div id="air-pollution">
+                    <h1 id="index"></h1>
+                    <div id="description"></div>
+                    <div id="co"></div>
+                    <div id="no"></div>
+                    <div id="no2"></div>
+                    <div id="o3"></div>
+                    <div id="so2"></div>
+                    <div id="pm2_5"></div>
+                    <div id="pm10"></div>
+                    <div id="nh3"></div>
+                </div>
+                <div id="map"></div>
             </div>
         </div>
     </div>
