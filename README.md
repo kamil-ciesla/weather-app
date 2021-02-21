@@ -20,8 +20,7 @@ current feature to work on:
 
 - hourly graph: canvas resize fix //krzysiek
 
-- hourly graph: reset after each load //kamil
-
+- location name blank if not found //kamil
 
 
 

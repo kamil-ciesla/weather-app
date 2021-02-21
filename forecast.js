@@ -21,7 +21,11 @@ class Forecast {
 
     async update(coords, locationName) {
         this.coords = coords;
-        this.locationName = locationName;
+        if (locationName) {
+            this.locationName = locationName;
+        } else {
+            this.locationName = 'Unknown location';
+        }
         fetch(
             `https://api.openweathermap.org/data/2.5/onecall?lat=${this.coords.lat}&lon=${this.coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`
         ).then(response => {
