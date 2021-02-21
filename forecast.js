@@ -70,7 +70,11 @@ class Forecast {
         for (let i = 0; i < 24; i++) {
             tempsY.push(data.hourly[i].temp.toFixed(2));
             // REPAIR: hour after 24 should turn into 0
-            hoursX.push(i + currentHour);
+            if (i + currentHour <= 24) {
+                hoursX.push(i + currentHour);
+            } else {
+                hoursX.push(i + currentHour - 24);
+            }
         }
         const ctx = document
             .getElementById('hourly-chart-canvas')
