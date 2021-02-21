@@ -30,7 +30,6 @@ class GoogleMap {
                     lng: marker.getPosition().lng()
                 }
                 const locationName = await this.getLocationName(this.geocoder, coords);
-                console.log(locationName);
                 this.forecast.update(coords, locationName);
             });
             map.setCenter(this.forecast.coords);

@@ -22,6 +22,7 @@ current feature to work on:
 
 - reverse geocoding errors (trying to reference types[] of undefined)
 
+- support for languages: polish, english, russian, german
 
 
 

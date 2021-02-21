@@ -21,25 +21,23 @@ class Forecast {
 
     async update(coords, locationName) {
         this.coords = coords;
-        if (locationName) {
-            this.locationName = locationName;
-        } else {
-            this.locationName = 'Unknown location';
+        this.locationName = locationName ? locationName : 'Unknown location';
+        const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${this.coords.lat}&lon=${this.coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`;
+        const oneCallResponse = await fetch(oneCallLink);
+        const oneCallData = await oneCallResponse.json();
+
+        const airPollutionLink = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${this.coords.lat}&lon=${this.coords.lng}&appid=${this.apiKey}`;
+        const airPollutionResponse = await fetch(airPollutionLink);
+        const airPollutionData = await airPollutionResponse.json();
+
+        if (this.hourlyChart) {
+            this.hourlyChart.destroy();
         }
-        fetch(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${this.coords.lat}&lon=${this.coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`
-        ).then(response => {
-            return response.json();
-        }).then(data => {
-            this.displayCurrentWeather(data);
-            this.displayAirPollution();
-            if (this.hourlyChart !== undefined) {
-                this.hourlyChart.destroy();
-            }
-            this.hourlyChart = this.createHourlyChart(data);
-        })
+        this.hourlyChart = this.createHourlyChart(oneCallData);
+        this.updateCurrentWeather(oneCallData);
+        this.updateAirPollution(airPollutionData);
     }
-    async displayCurrentWeather(data) {
+    async updateCurrentWeather(data) {
         const temp = data.current.temp.toFixed(1);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
         const iconAlt = data.current.weather[0].description
@@ -52,23 +50,17 @@ class Forecast {
         $('#forecast-humidity').text(data.current.humidity + '%');
         $('#forecast-wind-speed').text(data.current.wind_speed + ' mph');
     }
-    displayAirPollution() {
-        fetch(
-            `http://api.openweathermap.org/data/2.5/air_pollution?lat=${this.coords.lat}&lon=${this.coords.lng}&appid=${this.apiKey}`
-        ).then(response => {
-            return response.json()
-        }).then(d => {
-            $('#index').html(`Air quality index: ${d.list[0].main.aqi}`);
-            $('#description').html(`(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)`);
-            $('#co').html(`Сoncentration of CO (Carbon monoxide): <b>${d.list[0].components.co}</b> μg/m3`);
-            $('#no').html(`Сoncentration of NO (Nitrogen monoxide): <b>${d.list[0].components.no}</b> μg/m3`);
-            $('#no2').html(`Сoncentration of NO<sub>2</sub> (Nitrogen dioxide): <b>${d.list[0].components.no2}</b> μg/m3`);
-            $('#o3').html(`Сoncentration of O<sub>3</sub> (Ozone): <b>${d.list[0].components.o3}</b> μg/m3`);
-            $('#so2').html(`Сoncentration of SO<sub>2</sub> (Sulphur dioxide): <b>${d.list[0].components.so2}</b> μg/m3`);
-            $('#pm2_5').html(`Сoncentration of PM<sub>2.5</sub> (Fine particles matter): <b>${d.list[0].components.pm2_5}</b> μg/m3`);
-            $('#pm10').html(`Сoncentration of PM<sub>10</sub> (Coarse particulate matter): <b>${d.list[0].components.pm10}</b> μg/m3`);
-            $('#nh3').html(`Сoncentration of NH<sub>3</sub> (Ammonia): <b>${d.list[0].components.nh3}</b> μg/m3`);
-        })
+    updateAirPollution(d) {
+        $('#index').html(`Air quality index: ${d.list[0].main.aqi}`);
+        $('#description').html(`(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)`);
+        $('#co').html(`Сoncentration of CO (Carbon monoxide): <b>${d.list[0].components.co}</b> μg/m3`);
+        $('#no').html(`Сoncentration of NO (Nitrogen monoxide): <b>${d.list[0].components.no}</b> μg/m3`);
+        $('#no2').html(`Сoncentration of NO<sub>2</sub> (Nitrogen dioxide): <b>${d.list[0].components.no2}</b> μg/m3`);
+        $('#o3').html(`Сoncentration of O<sub>3</sub> (Ozone): <b>${d.list[0].components.o3}</b> μg/m3`);
+        $('#so2').html(`Сoncentration of SO<sub>2</sub> (Sulphur dioxide): <b>${d.list[0].components.so2}</b> μg/m3`);
+        $('#pm2_5').html(`Сoncentration of PM<sub>2.5</sub> (Fine particles matter): <b>${d.list[0].components.pm2_5}</b> μg/m3`);
+        $('#pm10').html(`Сoncentration of PM<sub>10</sub> (Coarse particulate matter): <b>${d.list[0].components.pm10}</b> μg/m3`);
+        $('#nh3').html(`Сoncentration of NH<sub>3</sub> (Ammonia): <b>${d.list[0].components.nh3}</b> μg/m3`);
     }
     createHourlyChart(data) {
         const hoursX = [];
