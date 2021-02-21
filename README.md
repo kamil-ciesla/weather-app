@@ -20,7 +20,7 @@ current feature to work on:
 
 - hourly graph: canvas resize fix //krzysiek
 
-- location name blank if not found //kamil
+- reverse geocoding errors (trying to reference types[] of undefined)
 
 
 
