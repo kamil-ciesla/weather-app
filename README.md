@@ -1,5 +1,4 @@
 # weather-app
-Last update on 20/02/2021 13:35
 Description: A website app with functionalites like checking current weather, forecast, and gps location
 
 Working on branches: 
@@ -16,8 +15,6 @@ current feature to work on:
 - air pollution bar graph (using chart.js library) //alex
 
 - Settings (units, languagues) (provided by openweather.org) //piotrek
-
-- hourly-graph hour axis fix //kamil
 
 - current-weather add more data //kamil
 

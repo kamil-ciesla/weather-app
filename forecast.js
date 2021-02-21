@@ -5,6 +5,7 @@ class Forecast {
         this.units = units;
         this.coords;
         this.locationName;
+        this.hourlyChart;
         this.currentContent = '#hourly-chart';
         $(this.currentContent).show();
         $('#hourly-chart-button').click(() => this._switchContent('#hourly-chart'));
@@ -27,8 +28,11 @@ class Forecast {
             return response.json();
         }).then(data => {
             this.displayCurrentWeather(data);
-            this.createHourlyChart(data);
-            this.displayAirPollution()
+            this.displayAirPollution();
+            if (this.hourlyChart !== undefined) {
+                this.hourlyChart.destroy();
+            }
+            this.hourlyChart = this.createHourlyChart(data);
         })
     }
     async displayCurrentWeather(data) {
