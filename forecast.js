@@ -11,6 +11,7 @@ class Forecast {
         $('#air-pollution-button').click(() => this._switchContent('#air-pollution'));
         $('#map-button').click(() => this._switchContent('#map'));
 
+        
     }
     _switchContent(target) {
         $(this.currentContent).hide();
@@ -18,7 +19,7 @@ class Forecast {
         this.currentContent = target;
     }
 
-    async update(coords, locationName) {
+    async update(coords = this.coords, locationName = this.locationName) {
         this.coords = coords;
         this.locationName = locationName;
         fetch(
@@ -28,9 +29,27 @@ class Forecast {
         }).then(data => {
             this.displayCurrentWeather(data);
             this.createHourlyChart(data);
-            this.displayAirPollution()
+            this.displayAirPollution();
         })
+
+        fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${this.coords.lat}&lon=${this.coords.lng}&lang=${this.language}&appid=${this.apiKey}`
+            ).then(response => {
+                return response.json();
+            }).then(data1 => {
+                console.log(data1)
+        })
+
     }
+
+
+    changeLanguage(lan) {
+        this.language = lan;
+        console.log(this.language);
+        this.update();
+
+    }
+
     async displayCurrentWeather(data) {
         const temp = data.current.temp.toFixed(1);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
@@ -50,6 +69,7 @@ class Forecast {
         ).then(response => {
             return response.json()
         }).then(d => {
+            //console.log(d);
             $('#index').html(`Air quality index: ${d.list[0].main.aqi}`);
             $('#description').html(`(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)`);
             $('#co').html(`Сoncentration of CO (Carbon monoxide): <b>${d.list[0].components.co}</b> μg/m3`);

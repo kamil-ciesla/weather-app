@@ -2,7 +2,15 @@ class GoogleMap {
     constructor(forecast) {
         this.geocoder = new google.maps.Geocoder();
         this.forecast = forecast;
+        $('#language-button-en').click(() => this.language_ch('en'));
+        $('#language-button-de').click(() => this.language_ch('de'));
+        $('#language-button-ru').click(() => this.language_ch('ru'));
+
     }
+
+    
+
+
     initMap() {
         window.addEventListener("load", async() => {
             // Try HTML5 geolocation.
@@ -37,6 +45,14 @@ class GoogleMap {
         });
     }
 
+    language_ch(lan) {
+        this.forecast.language = lan;
+        //this.forecast.update(coords, locationName)
+        console.log(this.forecast.language);
+        this.forecast.update();
+
+    }
+    
     getLocationName(geocoder, coords) {
         /** Perform reverse geocoding using given coordinates */
         let locationName;
