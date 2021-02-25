@@ -9,7 +9,14 @@ class Forecast {
         $(this.currentContent).show();
         $('#hourly-chart-button').click(() => this._switchContent('#hourly-chart'));
         $('#air-pollution-button').click(() => this._switchContent('#air-pollution'));
-        $('#map-button').click(() => this._switchContent('#map'));
+		$('#map-button').click(() => this._switchContent('#map'));
+        $('#language-button-pl').click(() => this.changeLanguage('pl'));
+        $('#language-button-en').click(() => this.changeLanguage('en'));
+        $('#language-button-de').click(() => this.changeLanguage('de'));
+        $('#language-button-ru').click(() => this.changeLanguage('ru'));
+        $('#units-button-metric').click(() => this.changeUnits('metric'));
+        $('#units-button-imperial').click(() => this.changeUnits('imperial'));
+
 
         
     }
@@ -46,6 +53,13 @@ class Forecast {
     changeLanguage(lan) {
         this.language = lan;
         console.log(this.language);
+        this.update();
+
+    }
+
+    changeUnits(unit) {
+        this.units = unit;
+        console.log(this.unit);
         this.update();
 
     }
