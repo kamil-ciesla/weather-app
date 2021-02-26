@@ -11,14 +11,12 @@ class Forecast {
         $('#hourly-chart-button').click(() => this._switchContent('#hourly-chart'));
         $('#air-pollution-button').click(() => this._switchContent('#air-pollution'));
         $('#map-button').click(() => this._switchContent('#map'));
-
     }
     _switchContent(target) {
         $(this.currentContent).hide();
         $(target).show();
         this.currentContent = target;
     }
-
     async update(coords, locationName) {
         this.coords = coords;
         this.locationName = locationName ? locationName : 'Unknown location';
@@ -34,6 +32,7 @@ class Forecast {
         }
         this.hourlyChart = this.createHourlyChart(oneCallData);
         this.updateCurrentWeather(oneCallData);
+        console.log(oneCallData);
         this.updateAirPollution(airPollutionData);
     }
     async updateCurrentWeather(data) {

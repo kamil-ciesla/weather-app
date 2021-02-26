@@ -20,7 +20,12 @@
         <div id="widget">
             <div id="nav-bar">
                 <ul>
-                    <li> </li>
+                    <li id="search-bar">
+                        <form action="" id="location-search-form">
+                            <label for="locationName">Search</label>
+                            <input type="text" id="locationName" name="locationName">
+                        </form>
+                    </li>
                     <li id="hourly-chart-button">Hourly</li>
                     <li id="seven-days">Seven days</li>
                     <li id="air-pollution-button">Air Pollution</li>
@@ -51,7 +56,7 @@
                 <div id="hourly-chart">
                     <canvas id="hourly-chart-canvas" width="1400" height="900"></canvas>
                 </div>
-                <div id="air-pollution">
+                <div id="air-pollution" class="forecast-content">
                     <h1 id="index"></h1>
                     <div id="description"></div>
                     <div id="co"></div>
@@ -73,7 +78,7 @@
     </script>
     <script src='map.js'></script>
     <script>
-        loadPage = function() {
+        function loadPage() {
             const apiKey = 'b8801437aa00cae409040174e8dadb7c';
             const language = 'pl';
             const units = 'metric';
@@ -82,7 +87,6 @@
             map.initMap();
         }
     </script>
-
 </body>
 
 </html>

@@ -52,6 +52,7 @@ li {
     list-style-type: none;
     color: white;
     font-size: 1.3em;
+    flex-grow: 1;
 }
 
 li:hover {
@@ -74,7 +75,7 @@ li:hover {
     display: flex;
     flex-direction: column;
     margin: auto;
-    width: 70vw;
+    width: 80vw;
     height: 80vh;
     margin-top: 1%;
     border: 0.3em solid rgb(0, 110, 255);
@@ -83,7 +84,22 @@ li:hover {
 
 #nav-bar {
     flex-grow: 1;
+    display: flex;
     background-color: rgb(0, 110, 255);
+}
+
+#search-bar {
+    flex-grow: 2;
+}
+
+#location-search-form {
+    margin-left: 5%;
+    display: flex;
+}
+
+#location-search-form input {
+    margin-left: 5%;
+    width: 70%;
 }
 
 #forecast {
@@ -97,18 +113,23 @@ li:hover {
     color: white;
     width: 20%;
     padding: 20px;
+    height: 100%;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    flex-grow: 2;
 }
 
 .justified-left {
     text-align: left;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding: 5%;
+}
+
+.forecast-content {
+    flex-grow: 4;
 }
 
 #hourly-chart {

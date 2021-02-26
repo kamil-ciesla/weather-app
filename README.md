@@ -16,8 +16,6 @@ current feature to work on:
 
 - Settings (units, languagues) (provided by openweather.org) //piotrek
 
-- current-weather add more data //kamil
-
 - hourly graph: canvas resize fix //krzysiek
 
 - reverse geocoding errors (trying to reference types[] of undefined)
