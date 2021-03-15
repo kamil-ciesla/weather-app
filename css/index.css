@@ -133,14 +133,14 @@ li:hover {
 }
 
 #hourly-chart {
-    width: 75%;
-    height: inherit;
+    width: 80%;
     position: relative;
     display: none;
 }
 
 #air-pollution {
     display: none;
+    width: 80%;
     padding: 2%;
     padding-left: 5%;
 }

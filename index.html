@@ -9,6 +9,7 @@
     <title>Weather app</title>
     <script src='jquery-3.5.1.js'></script>
     <script src="chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 
 <body>
@@ -77,16 +78,7 @@
     <script src='forecast.js'>
     </script>
     <script src='map.js'></script>
-    <script>
-        function loadPage() {
-            const apiKey = 'b8801437aa00cae409040174e8dadb7c';
-            const language = 'pl';
-            const units = 'metric';
-            const forecast = new Forecast(apiKey, language, units);
-            const map = new GoogleMap(forecast);
-            map.initMap();
-        }
-    </script>
+    <script src='loading_api.js'></script>
 </body>
 
 </html>
