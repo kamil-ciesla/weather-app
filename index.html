@@ -7,41 +7,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css">
     <title>Weather app</title>
-    <script src='jquery-3.5.1.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 
 <body>
-    <div id="container">
-        <div id="site-title">
-            SIMPLEWEATHER
+    <div class="container-fluid website-container">
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <div class="col  d-flex justify-content-center">
+                    <div class="website-title">
+                        SIMPLEWEATHER
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary mt-3 p-2 d-flex">
+                <form class="form-inline my-2 my-lg-0 d-flex">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <a href="" class="navbar-brand">Navbar</a>
+                <ul class="navbar-nav  ">
+
+                    <li id="hourly-chart-button" class="nav-item active">
+                        <a href="" class="nav-link">Hourly</a>
+                    </li>
+                    <li id="seven-days" class="nav-item">
+                        <a class="nav-link disabled" href="#">Seven days</a>
+                    </li>
+                    <li id="air-pollution-button" class="nav-item active">
+                        <a href="" class="nav-link">Air Pollution</a>
+                    </li>
+                    <li id="map-button" class="nav-item active  ">
+                        <a href="" class="nav-link">Map</a>
+                    </li>
+
+                </ul>
+
+            </nav>
         </div>
 
-        <div id="widget">
-            <div id="nav-bar">
-                <ul>
-                    <li id="search-bar">
-                        <form action="" id="location-search-form">
-                            <label for="locationName">Search</label>
-                            <input type="text" id="locationName" name="locationName">
-                        </form>
-                    </li>
-                    <li id="hourly-chart-button">Hourly</li>
-                    <li id="seven-days">Seven days</li>
-                    <li id="air-pollution-button">Air Pollution</li>
-                    <li id="map-button">Map</li>
-                </ul>
-            </div>
-            <div id="forecast">
-                <div id="current-weather">
-                    <img id="forecast-icon" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
-                    <br>
-                    <span id="location-name"></span>
-                    <span id="coords"></span>
-                    <br>
-                    <span id="forecast-temperature"></span>
-                    <br>
-                    <div class="justified-left">
+        <div class="container-fluid main-container mt-1">
+            <div class="row">
+                <div class="col-2">
+                    <div id="current-weather">
+                        <img id="forecast-icon" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
+                        <br>
+                        <span id="location-name"></span>
+                        <span id="coords"></span>
+                        <br>
+                        <span id="forecast-temperature"></span>
+                        <br>
                         <span id="forecast-pressure"></span>
                         <br>
                         <span id="forecast-wind-speed"></span>
@@ -52,25 +71,33 @@
                         <br>
                         <span id="sunset"></span>
                     </div>
+
                 </div>
-                <div id="hourly-chart">
-                    <canvas id="hourly-chart-canvas" width="1400" height="900"></canvas>
+                <div class="col-10">
+                    <div id="hourly-chart">
+                        <canvas id="hourly-chart-canvas"></canvas>
+                    </div>
                 </div>
-                <div id="air-pollution" class="forecast-content">
-                    <h1 id="index"></h1>
-                    <div id="description"></div>
-                    <div id="co"></div>
-                    <div id="no"></div>
-                    <div id="no2"></div>
-                    <div id="o3"></div>
-                    <div id="so2"></div>
-                    <div id="pm2_5"></div>
-                    <div id="pm10"></div>
-                    <div id="nh3"></div>
-                </div>
-                <div id="map"></div>
             </div>
         </div>
+    </div>
+    <!-- rest elements -->
+    <div class="col">
+        <div id="air-pollution" class="forecast-content">
+            <h1 id="index"></h1>
+            <div id="description"></div>
+            <div id="co"></div>
+            <div id="no"></div>
+            <div id="no2"></div>
+            <div id="o3"></div>
+            <div id="so2"></div>
+            <div id="pm2_5"></div>
+            <div id="pm10"></div>
+            <div id="nh3"></div>
+        </div>
+    </div>
+    <div class="col">
+        <div id="map"></div>
     </div>
     <script async src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=loadPage&libraries=&v=weekly'>
     </script>
@@ -87,6 +114,8 @@
             map.initMap();
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
 </body>
 
 </html>

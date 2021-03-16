@@ -12,53 +12,24 @@ body {
     font-weight: 100;
 }
 
-#container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#site-title {
+.website-title {
     font-family: 'Righteous';
-    margin: auto;
     font-size: 3em;
-    margin-top: 1%;
     color: rgb(255, 187, 0);
     letter-spacing: 0.1em;
+}
+
+.navbar {
+    border: 2px solid red;
+}
+
+.navbar-nav {
+    border: 2px solid red;
 }
 
 #location {
     margin: auto;
     font-family: 'Righteous';
-}
-
-#nav-bar ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    margin: 0;
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style-type: none;
-    color: white;
-    font-size: 1.3em;
-    flex-grow: 1;
-}
-
-li:hover {
-    background-color: cornflowerblue;
-    color: white;
-    cursor: pointer;
 }
 
 #forecast-temperature {
@@ -71,82 +42,26 @@ li:hover {
     font-weight: 300;
 }
 
-#widget {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    width: 80vw;
-    height: 80vh;
-    margin-top: 1%;
-    border: 0.3em solid rgb(0, 110, 255);
-    border-radius: 10px;
-}
-
-#nav-bar {
-    flex-grow: 1;
-    display: flex;
-    background-color: rgb(0, 110, 255);
-}
-
-#search-bar {
-    flex-grow: 2;
-}
-
-#location-search-form {
-    margin-left: 5%;
-    display: flex;
-}
-
-#location-search-form input {
-    margin-left: 5%;
-    width: 70%;
-}
-
-#forecast {
-    display: flex;
-    flex-direction: row;
-    height: 94%;
-}
-
 #current-weather {
     background-color: rgb(0, 110, 255);
     color: white;
-    width: 20%;
     padding: 20px;
-    height: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-grow: 2;
 }
 
-.justified-left {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 5%;
-}
-
-.forecast-content {
-    flex-grow: 4;
+#forecast-icon {
+    width: 10em;
+    border: 2px solid red;
 }
 
 #hourly-chart {
-    width: 75%;
-    height: inherit;
-    position: relative;
     display: none;
+    height: 100%;
 }
 
 #air-pollution {
     display: none;
     padding: 2%;
     padding-left: 5%;
-}
-
-#index {
-    color: rgb(0, 110, 255);
 }
 
 #map {
