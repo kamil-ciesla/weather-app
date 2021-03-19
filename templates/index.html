@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"> {% endblock %}{% block body %}
+<div class="col-2">
+    <div id="current-weather">
+        <img id="forecast-icon" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
+        <br>
+        <span id="location-name"></span>
+        <span id="coords"></span>
+        <br>
+        <span id="forecast-temperature"></span>
+        <br>
+        <span id="forecast-pressure"></span>
+        <br>
+        <span id="forecast-wind-speed"></span>
+        <br>
+        <span id="forecast-humidity"></span>
+        <br>
+        <span id="sunrise"></span>
+        <br>
+        <span id="sunset"></span>
+    </div>
+
+</div>
+{% endblock %}
