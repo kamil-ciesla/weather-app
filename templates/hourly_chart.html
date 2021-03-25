@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hourly_chart.css') }}"> {% endblock %} {% block body %}
+<div id="hourly-chart">
+    <canvas id="hourly-chart-canvas"></canvas>
+</div>
+{% endblock %} {% block js %}
+<script type=text/javascript src="{{url_for('static', filename='js/hourly_chart.js') }}"></script>
+
+{% endblock %}

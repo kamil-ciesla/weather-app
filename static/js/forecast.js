@@ -3,39 +3,38 @@ class Forecast {
         this.apiKey = apiKey;
         this.language = language;
         this.units = units;
-        this.coords;
+        this.coords = {
+            lat: 0,
+            lng: 0
+        }
         this.locationName;
         this.hourlyChart;
-        this.currentContent = '#hourly-chart';
-        $(this.currentContent).show();
-        $('#hourly-chart-button').click(() => this._switchContent('#hourly-chart'));
-        $('#air-pollution-button').click(() => this._switchContent('#air-pollution'));
-        $('#map-button').click(() => this._switchContent('#map'));
+        this.oneCallData;
+        this.airPollutionData;
     }
     _switchContent(target) {
         $(this.currentContent).hide();
         $(target).show();
         this.currentContent = target;
     }
-    async update(coords, locationName) {
-        this.coords = coords;
-        this.locationName = locationName ? locationName : 'Unknown location';
+    async getOneCallData() {
         const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${this.coords.lat}&lon=${this.coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`;
         const oneCallResponse = await fetch(oneCallLink);
         const oneCallData = await oneCallResponse.json();
+        return oneCallData
+    }
+    async getAirPollutionData() {
         const airPollutionLink = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${this.coords.lat}&lon=${this.coords.lng}&appid=${this.apiKey}`;
         const airPollutionResponse = await fetch(airPollutionLink);
         const airPollutionData = await airPollutionResponse.json();
-
-        if (this.hourlyChart) {
-            this.hourlyChart.destroy();
-        }
-        this.hourlyChart = this.createHourlyChart(oneCallData);
-        this.updateCurrentWeather(oneCallData);
-        console.log(oneCallData);
-        this.updateAirPollution(airPollutionData);
+        return airPollutionData;
     }
-    async updateCurrentWeather(data) {
+    async update(coords, locationName = false) {
+        this.coords = coords;
+        this.locationName = locationName ? locationName : 'Unknown location';
+    }
+    async updateCurrentWeather() {
+        const data = await this.getOneCallData();
         const temp = data.current.temp.toFixed(1);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
         const iconAlt = data.current.weather[0].description;
@@ -52,7 +51,8 @@ class Forecast {
         $('#sunrise').text(`Sunrise at ${('0'+sunrise.getHours()).slice(-2)}:${('0'+sunrise.getMinutes()).slice(-2)}`);
         $('#sunset').text(`Sunset at ${('0'+sunset.getHours()).slice(-2)}:${('0'+sunset.getMinutes()).slice(-2)}`);
     }
-    updateAirPollution(data) {
+    async updateAirPollution() {
+        const data = await this.getAirPollutionData();
         $('#index').html(`Air quality index: ${data.list[0].main.aqi}`);
         $('#description').html(`(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)`);
         $('#co').html(`Сoncentration of CO (Carbon monoxide): <b>${data.list[0].components.co}</b> μg/m3`);
@@ -64,7 +64,11 @@ class Forecast {
         $('#pm10').html(`Сoncentration of PM<sub>10</sub> (Coarse particulate matter): <b>${data.list[0].components.pm10}</b> μg/m3`);
         $('#nh3').html(`Сoncentration of NH<sub>3</sub> (Ammonia): <b>${data.list[0].components.nh3}</b> μg/m3`);
     }
-    createHourlyChart(data) {
+    async createHourlyChart() {
+        const data = await this.getOneCallData();
+        if (this.hourlyChart) {
+            this.hourlyChart.destroy();
+        }
         const hoursX = [];
         const tempsY = [];
         const currentTime = new Date();
@@ -77,9 +81,7 @@ class Forecast {
                 hoursX.push(i + currentHour - 24);
             }
         }
-        const ctx = document
-            .getElementById('hourly-chart-canvas')
-            .getContext('2d');
+        const ctx = document.getElementById('hourly-chart-canvas').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -106,6 +108,5 @@ class Forecast {
                 },
             },
         })
-        return chart;
     }
 }

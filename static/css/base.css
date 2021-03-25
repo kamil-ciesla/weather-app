@@ -5,6 +5,11 @@
     box-sizing: border-box;
 }
 
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
 body {
     margin: 0;
     background-color: rgb(255, 255, 255);
@@ -19,13 +24,7 @@ body {
     letter-spacing: 0.1em;
 }
 
-.navbar {
-    border: 2px solid red;
-}
-
-.navbar-nav {
-    border: 2px solid red;
-}
+.navbar-nav {}
 
 #location {
     margin: auto;
@@ -48,18 +47,13 @@ body {
     padding: 20px;
 }
 
-#forecast-icon {
-    width: 10em;
-    border: 2px solid red;
-}
+#forecast-icon {}
 
 #hourly-chart {
-    display: none;
     height: 100%;
 }
 
 #air-pollution {
-    display: none;
     padding: 2%;
     padding-left: 5%;
 }
@@ -67,5 +61,4 @@ body {
 #map {
     width: 80%;
     height: 100%;
-    display: none;
 }

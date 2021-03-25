@@ -1,11 +1,12 @@
 class GoogleMap {
     constructor(forecast) {
-        this.geocoder = new google.maps.Geocoder();
+
         this.forecast = forecast;
     }
     initMap() {
         window.addEventListener("load", async() => {
             // Try HTML5 geolocation.
+            this.geocoder = new google.maps.Geocoder();
             const coords = await this.getCurrentPosition();
             const locationName = await this.getLocationName(this.geocoder, coords);
             this.forecast.update(coords, locationName);
@@ -31,6 +32,7 @@ class GoogleMap {
                 }
                 const locationName = await this.getLocationName(this.geocoder, coords);
                 this.forecast.update(coords, locationName);
+                this.forecast.updateCurrentWeather();
             });
             map.setCenter(this.forecast.coords);
             marker.setPosition(this.forecast.coords);
@@ -88,4 +90,27 @@ class GoogleMap {
             }
         })
     }
+}
+
+const apiKey = 'b8801437aa00cae409040174e8dadb7c';
+const language = 'pl';
+const units = 'metric';
+const forecast = new Forecast(apiKey, language, units);
+
+forecast.updateCurrentWeather()
+const map = new GoogleMap(forecast);
+
+function loadScript(src, callback) {
+
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    if (callback) script.onload = callback;
+    document.getElementsByTagName("head")[0].appendChild(script);
+    script.src = src;
+}
+
+loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyCuaCF5f_8RVyuJjZxr5O9xWSX8VKGan5E&callback=initialize&libraries=&v=weekly');
+
+function initialize() {
+    map.initMap();
 }
