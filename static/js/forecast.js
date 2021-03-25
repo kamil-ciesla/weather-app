@@ -3,27 +3,24 @@ class Forecast {
         this.apiKey = apiKey;
         this.language = language;
         this.units = units;
-        this.coords = {
-            lat: 0,
-            lng: 0
-        }
+        this.googleMap = new GoogleMap();
+        this.coords;
         this.locationName;
         this.hourlyChart;
         this.oneCallData;
         this.airPollutionData;
     }
-    _switchContent(target) {
-        $(this.currentContent).hide();
-        $(target).show();
-        this.currentContent = target;
-    }
+
     async getOneCallData() {
+        await this.checkCoords();
         const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${this.coords.lat}&lon=${this.coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`;
         const oneCallResponse = await fetch(oneCallLink);
         const oneCallData = await oneCallResponse.json();
-        return oneCallData
+        return oneCallData;
     }
+
     async getAirPollutionData() {
+        await this.checkCoords();
         const airPollutionLink = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${this.coords.lat}&lon=${this.coords.lng}&appid=${this.apiKey}`;
         const airPollutionResponse = await fetch(airPollutionLink);
         const airPollutionData = await airPollutionResponse.json();
@@ -33,16 +30,30 @@ class Forecast {
         this.coords = coords;
         this.locationName = locationName ? locationName : 'Unknown location';
     }
+    async checkCoords() {
+        if (this.coords == null) {
+            this.coords = await GoogleMap.getCurrentPosition();
+            if (this.coords == null) {
+                this.coords = {
+                    lat: 0,
+                    lng: 0
+                }
+            }
+        }
+    }
     async updateCurrentWeather() {
+        await this.checkCoords();
         const data = await this.getOneCallData();
         const temp = data.current.temp.toFixed(1);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
         const iconAlt = data.current.weather[0].description;
         const sunrise = new Date(data.current.sunrise * 1000);
         const sunset = new Date(data.current.sunset * 1000);
+        console.log(this.coords);
+        const locationName = await GoogleMap.getLocationName(this.coords);
         $('#forecast-icon').src = iconURL;
         $('#forecast-icon').alt = iconAlt;
-        $('#location-name').text(this.locationName);
+        $('#location-name').text(locationName);
         $('#coords').text(`${this.coords.lat.toPrecision(4)}, ${this.coords.lng.toPrecision(4)}`);
         $('#forecast-temperature').text(`${temp}°C`);
         $('#forecast-pressure').text(`Pressure: ${data.current.pressure} hPa`);
