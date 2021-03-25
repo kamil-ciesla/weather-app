@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/air_pollution.css') }}"> {% endblock %} {% block body %}
+<div id="air-pollution" class="forecast-content">
+    <h1 id="index"></h1>
+    <div id="description"></div>
+    <div id="co"></div>
+    <div id="no"></div>
+    <div id="no2"></div>
+    <div id="o3"></div>
+    <div id="so2"></div>
+    <div id="pm2_5"></div>
+    <div id="pm10"></div>
+    <div id="nh3"></div>
+</div>
+{% endblock %} {% block js %}
+<script type=text/javascript src="{{url_for('static', filename='js/air_pollution.js') }}"></script>
+{% endblock %}
