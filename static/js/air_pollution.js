@@ -4,6 +4,4 @@ const units = 'metric';
 const forecast = new Forecast(apiKey, language, units);
 
 forecast.updateCurrentWeather()
-forecast.updateAirPollution();
-//const map = new GoogleMap(forecast);
-//map.initMap();
+forecast.displayAirPollution();

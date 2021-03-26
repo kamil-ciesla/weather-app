@@ -1,0 +1,418 @@
+[33mcommit 1f13d145ba8f22d3103bd455bbc65830280f2207[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Thu Mar 25 22:12:12 2021 +0100
+
+    forecast class uses geolocation
+
+[33mcommit 2d61715dfa636080f82257b8c9f767b45679d061[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 3c7a53d 09fd708
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Thu Mar 25 19:30:37 2021 +0100
+
+    main merged with flask
+
+[33mcommit 09fd708d8281e0d076bb1cbc58df84c291492327[m[33m ([m[1;31morigin/flask[m[33m, [m[1;32mflask[m[33m)[m
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Thu Mar 25 19:25:52 2021 +0100
+
+    map fetches data to current weather hotfix
+
+[33mcommit c6ff9e5e464c931bac8115721367947974f52a97[m
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Fri Mar 19 20:02:46 2021 +0100
+
+    added init_weather_api.js
+
+[33mcommit 713ec1f9665c4d0c0528876178a1330296f01b81[m
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Fri Mar 19 19:57:03 2021 +0100
+
+    added current weather but no data
+
+[33mcommit 7af66def099541fd5e43f1d35df78dc9e929d51e[m[33m ([m[1;31morigin/bootstrap[m[33m, [m[1;32mbootstrap[m[33m)[m
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Tue Mar 16 20:36:23 2021 +0100
+
+    index.html restructure
+
+[33mcommit 3c7a53dd081dc691cf43b272dabbb87a32466d57[m
+Author: cieslakamil <kamilciesla34@gmail.com>
+Date:   Mon Mar 15 23:22:00 2021 +0100
+
+    responsive hourlychart hotfix, and bootstrap css
+
+[33mcommit 578ac2029bf920ddf2ab194c76dacf089cb6af4b[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Fri Feb 26 17:10:22 2021 +0100
+
+    wip
+
+[33mcommit b2a960736205b2a7bc44117c4267e091353fdc5d[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sun Feb 21 15:15:04 2021 +0100
+
+    small fixes
+
+[33mcommit a06ca572960e2ceac42b1296e466d8b66e11bae3[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sun Feb 21 13:24:08 2021 +0100
+
+    forecast.update() refactor
+
+[33mcommit 1fb52c261fd5ce0ddab2b35bf5bda5ce6724a26d[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sun Feb 21 12:32:06 2021 +0100
+
+    readme update
+
+[33mcommit f5276391bbc8f2b10bedfa6b2d135aa82bfa3e98[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sun Feb 21 12:30:47 2021 +0100
+
+    map added unknown place if undefined
+
+[33mcommit b15d1d880e6ab2baef5d9a5b6ac507433be258cb[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sun Feb 21 12:20:39 2021 +0100
+
+    hourly graph: reset after each load
+
+[33mcommit d02e6da4834cc9fb2c62e1e945257312311257c8[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sun Feb 21 12:14:47 2021 +0100
+
+    hourly-graph hour axis fix
+
+[33mcommit 36683ffecb13a982e002e6beb443a2a1df18dec9[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 20 13:53:48 2021 +0100
+
+    moved unused files to folder
+
+[33mcommit e04f30cf3fac9865c547ca1368d7f80e9fe87a8e[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 20 13:35:17 2021 +0100
+
+    general update
+
+[33mcommit 70f00c4ed58accb9006b1ab13e816d4019a39f4c[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 20 12:04:02 2021 +0100
+
+    page redesign
+
+[33mcommit f3d6fdcbfa4748e4f543b0c6a61e020c3b305eb1[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Fri Feb 19 17:54:35 2021 +0100
+
+    general refactor
+
+[33mcommit 7dceeb65095591f0fd4f103af2ff7fd13c85f03e[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Fri Feb 19 13:12:20 2021 +0100
+
+    added weather update with map marker
+
+[33mcommit 52132fc0e1951a5a6ae2091545062ce24f51d76d[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Fri Feb 19 12:33:55 2021 +0100
+
+    general refactor
+
+[33mcommit 96157799c15a028b9184714854b00e55dc935c1c[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Thu Feb 18 18:06:19 2021 +0100
+
+    current temp hotfix
+
+[33mcommit 1af3566453d162c1e5084665077edc1199748b99[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Thu Feb 18 16:48:13 2021 +0100
+
+    reverse geocoding hotfix
+
+[33mcommit dbe7f4b526d77f5f2bf3821671b5ec65cf7f64cf[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Thu Feb 18 16:03:41 2021 +0100
+
+    weather today update
+
+[33mcommit 54db6dcbf9fb87039d373c58829d871a22cbb0f1[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Thu Feb 18 13:03:24 2021 +0100
+
+    added weather-today on main page
+
+[33mcommit d8e4c2ef45ecf9ab5b3f6d92c3536a5ba4819ba1[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 17 13:17:48 2021 +0100
+
+    map button
+
+[33mcommit c3e87b3f65e2e029c7a08e39a01d1a82c545de81[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Tue Feb 16 20:12:31 2021 +0100
+
+    css update
+
+[33mcommit cf88576ee6ef42857324be4ae543c35f1e5e3909[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Tue Feb 16 20:08:38 2021 +0100
+
+    map update
+
+[33mcommit 7cfb1bb96218f1b784f9ba145a96ad7d4eb05ed4[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Tue Feb 16 19:01:22 2021 +0100
+
+    map update
+
+[33mcommit 42e279aa63de3efa51a3c32fc4ab0010b459ff70[m
+Merge: c25e5f5 29eec8d
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Tue Feb 16 16:34:55 2021 +0100
+
+    Merge branch 'main' of github.com:polardeer/weather-app
+
+[33mcommit c25e5f5989d12a8989499311db764ad52e973df5[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Tue Feb 16 16:32:59 2021 +0100
+
+    added map to main page
+
+[33mcommit 29eec8dd1f135706316108a6e26cd423b34a00c0[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Tue Feb 16 16:13:10 2021 +0100
+
+    added more cities
+
+[33mcommit 1b4ba6f246f19f123a7a3e22482cafe13747dcd7[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Tue Feb 16 15:52:21 2021 +0100
+
+    added reverse geocoding
+
+[33mcommit 515905c031d94aac48d24fa5cdcf9b782dad4aca[m
+Merge: 8a72bf4 ebc24ca
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Tue Feb 16 15:48:55 2021 +0100
+
+    Merge branch 'main' of github.com:polardeer/weather-app
+
+[33mcommit 8a72bf41e1f443d2ed792464522240bb85ab2c10[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Tue Feb 16 15:46:10 2021 +0100
+
+    Added reverse geocoding
+
+[33mcommit 320fd2194baca567d7bbcfa355c8db95144d8aa8[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Tue Feb 16 15:42:53 2021 +0100
+
+    added reverse geocoding
+
+[33mcommit 49eb2fbc6e15367f77d02bdde933237804bc0bd5[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Tue Feb 16 15:39:37 2021 +0100
+
+    added reverse geocoding
+
+[33mcommit ebc24ca3f8c76a9eb20a6724ddfeefb049daab2d[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Tue Feb 16 15:00:07 2021 +0100
+
+    index rebuild
+
+[33mcommit c558f9a75e4b7e9708d39788bc20541657c79e07[m
+Author: chrisfid <krzysztof.fidyka@gmail.com>
+Date:   Tue Feb 16 13:30:54 2021 +0100
+
+    Code refactoring
+
+[33mcommit 1f9be3c8622a20aa9c3b443d1ae3ceaedb9be81f[m
+Author: chrisfid <krzysztof.fidyka@gmail.com>
+Date:   Tue Feb 16 13:14:37 2021 +0100
+
+    Fixed dates displayed in forecast menu
+
+[33mcommit 410adccb3134f945673e2e856dd6a561bda6aafe[m
+Author: chrisfid <krzysztof.fidyka@gmail.com>
+Date:   Tue Feb 16 11:52:03 2021 +0100
+
+    Added chart.js
+
+[33mcommit 644a4a8f827ff26edc62155e3c7b5498f91172a6[m
+Merge: 6e21077 24b54d3
+Author: chrisfid <krzysztof.fidyka@gmail.com>
+Date:   Tue Feb 16 10:37:40 2021 +0100
+
+    Merge branch 'main' of https://github.com/polardeer/weather-app
+
+[33mcommit 6e21077e185eaea94f7517913238a894fc46d5a4[m
+Merge: 415f511 1e00a78
+Author: chrisfid <krzysztof.fidyka@gmail.com>
+Date:   Tue Feb 16 10:36:34 2021 +0100
+
+    Added two files
+
+[33mcommit 24b54d369572c405007bd393ea21d12feb69fed5[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Sun Feb 14 02:14:33 2021 +0100
+
+    Marker improvements
+
+[33mcommit 415f511b3b1545029344fd76150a64fac91f4d98[m
+Author: chrisfid <krzysztof.fidyka@gmail.com>
+Date:   Sat Feb 13 23:53:50 2021 +0100
+
+    Added a foundation weather forecast
+
+[33mcommit 1e00a78f7920429451671975c4e70f0e62607f92[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 13 23:09:53 2021 +0100
+
+    readme update
+
+[33mcommit 31ae937a2d2e9556277e79f07dd86e97d32129dc[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 13 22:49:54 2021 +0100
+
+    removed unused files
+
+[33mcommit 1d1efd97714607444fe6facda00eaee69cf56492[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 13 22:36:33 2021 +0100
+
+    merged air-pollution
+
+[33mcommit 0769d2a7fbbf8be800c3d0a898bc0b4a098c3d41[m
+Merge: 23d8cbe 535b903
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 13 22:33:00 2021 +0100
+
+    Merge branch 'weather-app-alexshhadeh'
+
+[33mcommit 23d8cbe4750a98c49c5764c0a3e46a84eacd78cf[m
+Merge: e9fc827 3911108
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 13 22:28:26 2021 +0100
+
+    Merge branch 'weather-app-map-donpedroq'
+
+[33mcommit e9fc8277ad7dce28255935fa5553956dab54ae4a[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Sat Feb 13 22:15:42 2021 +0100
+
+    Merged current-weather
+
+[33mcommit 3911108c99f702190f43d0c9b64ae6e0c6818304[m
+Author: DonPedroQ <miami2042@gmail.com>
+Date:   Fri Feb 12 20:06:21 2021 +0100
+
+    Added map with current location
+
+[33mcommit 535b903ceea77647be5052063b6355dd5c601861[m
+Author: alexshhadeh <37109990+alexshhadeh@users.noreply.github.com>
+Date:   Fri Feb 12 15:23:37 2021 +0100
+
+    a working version of air-pollution
+    
+    searching by coordinates
+
+[33mcommit 3a968d8f1fda94a01aae716d920176155973dd0c[m
+Author: alexshhadeh <37109990+alexshhadeh@users.noreply.github.com>
+Date:   Fri Feb 12 15:23:08 2021 +0100
+
+    a working version of current-weather
+    
+    searching by city name
+
+[33mcommit 119ee488b1feb9307469d957cf5bf42a070a4775[m
+Author: alexshhadeh <37109990+alexshhadeh@users.noreply.github.com>
+Date:   Fri Feb 12 14:16:35 2021 +0100
+
+    initial version of current-weather
+
+[33mcommit 929465a53f2068c051027807fd52b3461ff598b7[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Fri Feb 12 09:50:34 2021 +0100
+
+    added air-polution.html and readme update
+
+[33mcommit 1009075b1534665be18b2665b1da3065701d429a[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Thu Feb 11 16:47:21 2021 +0100
+
+    track css file
+
+[33mcommit fa761b1dd86075f549cf6e82400e2f3bdd8e9153[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Thu Feb 11 16:45:49 2021 +0100
+
+    added jquery file
+
+[33mcommit e78a694550a01c21a1ab20bc9a4eb9d9d4744121[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 21:13:30 2021 +0100
+
+    added js folder
+
+[33mcommit ef74672bbc147aaf1deefec647e281fcd11196d4[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 21:10:06 2021 +0100
+
+    restructured project
+
+[33mcommit c8257dc0b14e3030c775b22210832fa371d591ee[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 20:37:35 2021 +0100
+
+    hotfix main branch
+
+[33mcommit ebab09bdcad571b7e43d12365b8aac8385813dce[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 19:51:02 2021 +0100
+
+    css deletion test
+
+[33mcommit 0853dcd9a2bd084bcfe9a5f9167bf1e596ac7523[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 19:31:32 2021 +0100
+
+    widgets structure in progress
+
+[33mcommit 11d4b6036cfd434c929ced0ce31b4cb88d2a79b2[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 17:32:48 2021 +0100
+
+    readme update
+
+[33mcommit 4c9c773f327666e1bccdf9ec8cbc4df62f356a0f[m
+Author: Kamil Cieśla <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 17:21:52 2021 +0100
+
+    readme update plan
+
+[33mcommit 736cc67a8b88b5894ea6d201f4955b91145ea248[m
+Author: Stanisław Frączek <stanislaw.ksawery.fraczek@gmail.com>
+Date:   Wed Feb 10 13:43:33 2021 +0100
+
+    Push testing
+
+[33mcommit 58fdf759f1439698bad46757b4039fa867ddec77[m
+Author: Stanisław Frączek <stanislaw.ksawery.fraczek@gmail.com>
+Date:   Wed Feb 10 13:37:04 2021 +0100
+
+    Hello World!
+
+[33mcommit d6d95a0935aed869ede36d55bdc5fbbab2bbadc3[m
+Author: polardeer <kamilciesla34@gmail.com>
+Date:   Wed Feb 10 13:30:44 2021 +0100
+
+    added initial files and folders
+
+[33mcommit 02337a038315aa4c5151da0cad97c781dd98ea57[m
+Author: Kamil Cieśla <67390569+polardeer@users.noreply.github.com>
+Date:   Wed Feb 10 12:52:25 2021 +0100
+
+    Initial commit

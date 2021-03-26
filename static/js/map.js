@@ -1,14 +1,13 @@
 class GoogleMap {
-
-    constructor() {}
-    initMap() {
+    constructor(forecast) {
+        this.forecast = forecast;
+    }
+    display() {
         window.addEventListener("load", async() => {
             const geocoder = new google.maps.Geocoder();
-
             // Try HTML5 geolocation.
-            const coords = await this.getCurrentPosition();
-            const locationName = await this.getLocationName(geocoder, coords);
-            this.forecast.update(coords, locationName);
+            const coords = await GoogleMap.getCurrentPosition();
+            this.forecast.update(coords);
             // The map, centered at User
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 10,
@@ -29,12 +28,12 @@ class GoogleMap {
                     lat: marker.getPosition().lat(),
                     lng: marker.getPosition().lng()
                 }
-                const locationName = await this.getLocationName(geocoder, coords);
-                this.forecast.update(coords, locationName);
+                this.forecast.update(coords);
                 this.forecast.updateCurrentWeather();
             });
             map.setCenter(this.forecast.coords);
             marker.setPosition(this.forecast.coords);
+
         });
     }
 

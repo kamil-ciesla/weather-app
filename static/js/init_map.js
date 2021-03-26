@@ -3,7 +3,8 @@ function initForecast() {
     const language = 'pl';
     const units = 'metric';
     const forecast = new Forecast(apiKey, language, units);
-    forecast.updateCurrentWeather()
-    forecast.createHourlyChart();
 
+    forecast.updateCurrentWeather()
+    const map = new GoogleMap(forecast);
+    map.display();
 }
