@@ -68,24 +68,55 @@ class Forecast {
         $('#sunset').text(`Sunset at ${('0'+sunset.getHours()).slice(-2)}:${('0'+sunset.getMinutes()).slice(-2)}`);
     }
     async displayAirPollution() {
+        //concetration
         const data = await this.getAirPollutionData();
-        $('#index').html(`Air quality index: ${data.list[0].main.aqi}`);
-        $('#description').html(`(1 = Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor)`);
-        $('#co').html(`Сoncentration of CO (Carbon monoxide): <b>${data.list[0].components.co}</b> μg/m3`);
-        $('#no').html(`Сoncentration of NO (Nitrogen monoxide): <b>${data.list[0].components.no}</b> μg/m3`);
-        $('#no2').html(`Сoncentration of NO<sub>2</sub> (Nitrogen dioxide): <b>${data.list[0].components.no2}</b> μg/m3`);
-        $('#o3').html(`Сoncentration of O<sub>3</sub> (Ozone): <b>${data.list[0].components.o3}</b> μg/m3`);
-        $('#so2').html(`Сoncentration of SO<sub>2</sub> (Sulphur dioxide): <b>${data.list[0].components.so2}</b> μg/m3`);
-        $('#pm2_5').html(`Сoncentration of PM<sub>2.5</sub> (Fine particles matter): <b>${data.list[0].components.pm2_5}</b> μg/m3`);
-        $('#pm10').html(`Сoncentration of PM<sub>10</sub> (Coarse particulate matter): <b>${data.list[0].components.pm10}</b> μg/m3`);
-        $('#nh3').html(`Сoncentration of NH<sub>3</sub> (Ammonia): <b>${data.list[0].components.nh3}</b> μg/m3`);
+        const airQualityIndex = ['Good', 'Fair', 'Moderate', 'Poor', 'Very poor'];
+        const airQuality = airQualityIndex[data.list[0].main.aqi];
+        $('#air-quality').html(`Air quality: ${airQuality}`);
+        $('#co').html(`${data.list[0].components.co} μg/m3`);
+        $('#no').html(`${data.list[0].components.no} μg/m3`);
+        $('#no2').html(`${data.list[0].components.no2} μg/m3`);
+        $('#o3').html(`${data.list[0].components.o3} μg/m3`);
+        $('#so2').html(`${data.list[0].components.so2} μg/m3`);
+        $('#pm2_5').html(`${data.list[0].components.pm2_5} μg/m3`);
+        $('#pm10').html(`${data.list[0].components.pm10} μg/m3`);
+        $('#nh3').html(`${data.list[0].components.nh3} μg/m3`);
     }
     async displaySevenDays() {
         if (this.coords == null) {
             await this.getCurrentPosition();
         }
         const data = await this.getOneCallData();
-        console.log(data);
+        const forecastDays = data.daily;
+        console.log(forecastDays);
+        const date = new Date();
+        const today = date.getDay();
+        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        for (let i = 1; i <= 7; i++) {
+            const dayName = $('<div></div>');
+            dayName.addClass("day-name col-2");
+            dayName.html(`${weekdays[(today + i) % 7]}`);
+
+            const dayTemp = $('<div></div>');
+            dayTemp.addClass("day-temp col");
+            dayTemp.html(`Day: ${forecastDays[i].temp.day}°C`);
+
+            const nightTemp = $('<div></div>');
+            nightTemp.addClass("night-temp col text-end");
+            nightTemp.html(`Night: ${forecastDays[i].temp.night}°C`);
+
+            const icon = $('<img>');
+            icon.addClass("forecast-icon img-fluid col-1");
+            const iconURL = `http://openweathermap.org/img/wn/${forecastDays[i].weather[0].icon}@2x.png`;
+            icon.attr('src', iconURL);
+
+            const day = $(`#day-${i}`);
+            day.append(dayName);
+            day.append(icon);
+            day.append(dayTemp);
+            day.append(nightTemp);
+
+        }
     }
     async createHourlyChart() {
         const data = await this.getOneCallData();

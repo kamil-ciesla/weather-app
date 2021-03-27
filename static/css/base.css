@@ -24,8 +24,8 @@ body {
     letter-spacing: 0.1em;
 }
 
-.main-container-row>.col {
-    min-height: 60vh;
+.main-container>.col {
+    min-height: 70vh;
 }
 
 #location {
@@ -48,4 +48,5 @@ body {
     color: white;
     padding: 1rem;
     height: 100%;
+    margin-right: 0.25rem;
 }

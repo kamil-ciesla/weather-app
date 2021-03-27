@@ -1,16 +1,93 @@
 {% extends 'base.html' %} {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/air_pollution.css') }}"> {% endblock %} {% block body %}
-<div id="air-pollution" class="forecast-content">
-    <h1 id="index"></h1>
-    <div id="description"></div>
-    <div id="co"></div>
-    <div id="no"></div>
-    <div id="no2"></div>
-    <div id="o3"></div>
-    <div id="so2"></div>
-    <div id="pm2_5"></div>
-    <div id="pm10"></div>
-    <div id="nh3"></div>
+<div id="air-pollution" class="col d-flex flex-column">
+    <div class="row flex-grow-2">
+        <div class="col air-quality-col">
+            <h3 id="air-quality"></h3>
+        </div>
+    </div>
+    <div class="row flex-grow-1">
+        <div class="col d-flex">
+            <div class="particle">
+                <div class="particle-short-name">
+                    CO
+                </div>
+                <div class="particle-long-name">
+                    Carbon monoxide
+                </div>
+                <div id="co" class="particle-value"></div>
+
+            </div>
+            <div class="particle">
+                <div class="particle-short-name">
+                    NO
+                </div>
+                <div class="particle-long-name">
+                    Nitrogen monoxide
+                </div>
+                <div id="no" class="particle-value"></div>
+            </div>
+            <div class="particle">
+                <div class="particle-short-name">
+                    NO<sub>2</sub>
+                </div>
+                <div class="particle-long-name">
+                    Nitrogen dioxide
+                </div>
+                <div id="no2" class="particle-value"></div>
+            </div>
+            <div class="particle">
+                <div class="particle-short-name">
+                    O<sub>3</sub>
+                </div>
+                <div class="particle-long-name">
+                    Ozone
+                </div>
+                <div id="o3" class="particle-value"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row flex-grow-1">
+        <div class="col d-flex">
+            <div class="particle">
+                <div class="particle-short-name">
+                    SO<sub>2</sub>
+                </div>
+                <div class="particle-long-name">
+                    Sulphur dioxide
+                </div>
+                <div id="so2" class="particle-value"></div>
+            </div>
+            <div class="particle">
+                <div class="particle-short-name">
+                    PM<sub>2.5</sub>
+                </div>
+                <div class="particle-long-name">
+                    Fine particles matter
+                </div>
+                <div id="pm2_5" class="particle-value"></div>
+            </div>
+            <div class="particle">
+                <div class="particle-short-name">
+                    PM<sub>10</sub>
+                </div>
+                <div class="particle-long-name">
+                    Coarse particulate matter
+                </div>
+                <div id="pm10" class="particle-value"></div>
+            </div>
+            <div class="particle">
+                <div class="particle-short-name">
+                    NH<sub>3</sub>
+                </div>
+                <div class="particle-long-name">
+                    Ammonia
+                </div>
+                <div id="nh3" class="particle-value"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %} {% block js %}
 <script type=text/javascript src="{{url_for('static', filename='js/air_pollution.js') }}"></script>

@@ -33,12 +33,12 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <ul class="navbar-nav  d-flex">
+                <ul class="navbar-nav d-flex">
 
                     <li id="hourly-chart-button" class="nav-item active">
                         <a href="/hourly" class="nav-link">Hourly</a>
                     </li>
-                    <li id="seven-days" class="nav-item active">
+                    <li id="seven-days-button" class="nav-item active">
                         <a href="/seven-days" class="nav-link">Seven days</a>
                     </li>
                     <li id="air-pollution-button" class="nav-item active">
@@ -50,26 +50,24 @@
                 </ul>
             </nav>
         </div>
-        <div class="container-fluid main-container mt-1">
-            <div class="row main-container-row">
-                <div class="col col-lg-2 col-md-4 col-sm-12">
-                    <div id="current-weather" class=" d-flex flex-column">
-                        <div class="col align-self-center">
-                            <img id="forecast-icon" class="img-fluid" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
-                        </div>
-                        <div class="col" id="location-name"></div>
-                        <div class="col" id="coords"></div>
-                        <div class="col" id="forecast-temperature"></div>
-                        <div class="col" id="forecast-pressure"></div>
-                        <div class="col" id="forecast-wind-speed"></div>
-                        <div class="col" id="forecast-humidity"></div>
-                        <div class="col" id="sunrise"></div>
-                        <div class="col" id="sunset"></div>
+        <div class="container-fluid main-container mt-1 d-flex">
+            <div class="col col-lg-2 col-md-3 col-sm-4 mr-1">
+                <div id="current-weather" class="d-flex flex-column">
+                    <div class="col align-self-center">
+                        <img id="forecast-icon" class="img-fluid" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
                     </div>
+                    <div class="col" id="location-name"></div>
+                    <div class="col" id="coords"></div>
+                    <div class="col" id="forecast-temperature"></div>
+                    <div class="col" id="forecast-pressure"></div>
+                    <div class="col" id="forecast-wind-speed"></div>
+                    <div class="col" id="forecast-humidity"></div>
+                    <div class="col" id="sunrise"></div>
+                    <div class="col" id="sunset"></div>
                 </div>
-                <div class="col">
-                    {% block body %}{% endblock %}
-                </div>
+            </div>
+            <div class="col">
+                {% block body %}{% endblock %}
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>

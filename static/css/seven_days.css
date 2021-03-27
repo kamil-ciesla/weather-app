@@ -1,0 +1,40 @@
+#seven-days {
+    height: 100%;
+    margin-left: 0.1rem;
+}
+
+.day {
+    width: 100%;
+    background-color: rgb(0, 110, 255);
+    margin-top: 0.2rem;
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 1.5rem;
+    max-height: 10vh;
+    padding-left: 1rem;
+}
+
+.day>* {
+    display: flex;
+    align-items: center;
+}
+
+#seven-days #day-1 {
+    margin-top: 0;
+}
+
+.day-name {}
+
+.day-temp {
+    justify-content: center;
+}
+
+.night-temp {
+    justify-content: center;
+}
+
+.forecast-icon {
+    align-items: center;
+}
