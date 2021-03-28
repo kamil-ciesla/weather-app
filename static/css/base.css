@@ -3,8 +3,12 @@
     box-sizing: border-box;
 }
 
+:root {
+    --darker-text: rgba(202, 195, 218, 0.801);
+}
+
 .gradient {
-    background: radial-gradient(circle, rgba(39, 52, 99, 0.705) 18%, rgba(139, 66, 85, 0.705) 100%);
+    background: radial-gradient(circle, #273463b4 18%, #8b4255b4 100%);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -41,6 +45,7 @@ ul {}
 .form-control {
     background-color: rgba(255, 255, 255, 0) !important;
     border-radius: 0 !important;
+    color: white !important;
 }
 
 .search-button {
@@ -57,22 +62,57 @@ ul {}
     height: 70vh;
 }
 
-#location {
-    margin: auto;
-}
-
-#forecast-temperature {
-    font-size: 32px;
-}
-
-#location-name {
-    font-size: 32px;
-}
-
 #current-weather {
     color: white;
     padding: 1rem;
     margin: 0.3rem;
     margin-right: 0.3rem;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#current-weather>* {}
+
+#forecast-icon {
+    flex-grow: 0;
+}
+
+.forecast-icon-container {
+    flex-grow: 0;
+    height: 50%;
+}
+
+#location-name {
+    margin: auto;
+    font-size: 2rem;
+    flex-grow: 0;
+}
+
+#coords {
+    margin: auto;
+    color: var(--darker-text);
+    flex-grow: 0;
+}
+
+#forecast-temperature {
+    font-size: 2.5rem;
+    margin: auto;
+    flex-grow: 0;
+}
+
+.rest-data-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
+    height: 20%;
+}
+
+.rest-data {
+    display: flex;
+}
+
+.rest-data .data-name {
+    width: 50%;
 }

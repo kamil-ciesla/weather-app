@@ -8,6 +8,18 @@ class Forecast {
         this.hourlyChart;
         this.oneCallData;
         this.airPollutionData;
+        /*
+        fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key)
+        .then(function(resp) {
+            return resp.json() // onvert data to json
+        })
+        .then(function(data) {
+            drawWeather(data); //call drawWeather
+        })
+        .catch(function() {
+            //catch errors
+        });
+        */
     }
 
     async getOneCallData() {
@@ -68,11 +80,12 @@ class Forecast {
         $('#location-name').text(locationName);
         $('#coords').text(`${this.coords.lat.toPrecision(4)}, ${this.coords.lng.toPrecision(4)}`);
         $('#forecast-temperature').text(`${temp}°C`);
-        $('#forecast-pressure').text(`Pressure: ${data.current.pressure} hPa`);
-        $('#forecast-humidity').text(`Humidity: ${data.current.humidity}%`);
-        $('#forecast-wind-speed').text(`Wind: ${data.current.wind_speed} mph`);
-        $('#sunrise').text(`Sunrise at ${('0'+sunrise.getHours()).slice(-2)}:${('0'+sunrise.getMinutes()).slice(-2)}`);
-        $('#sunset').text(`Sunset at ${('0'+sunset.getHours()).slice(-2)}:${('0'+sunset.getMinutes()).slice(-2)}`);
+        $('#forecast-pressure').text(data.current.pressure);
+        $('#forecast-wind-speed').text(data.current.wind_speed);
+        $('#forecast-humidity').text(`${data.current.humidity}%`);
+
+        $('#sunrise').text(`${('0'+sunrise.getHours()).slice(-2)}:${('0'+sunrise.getMinutes()).slice(-2)}`);
+        $('#sunset').text(`${('0'+sunset.getHours()).slice(-2)}:${('0'+sunset.getMinutes()).slice(-2)}`);
     }
     async displayAirPollution() {
         //concetration

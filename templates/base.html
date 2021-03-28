@@ -52,14 +52,12 @@
                     <a href="/seven-days" class="nav-link text-light">Seven days</a>
                 </li>
                 <li class="nav-item">
-                    <form class="form-inline my-2 my-lg-0 d-flex">
+                    <form action="/search" class="form-inline my-2 my-lg-0 d-flex">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
-
+                                <input id="searched_location" class="form-control" type="search" name="location_name" placeholder="" aria-label="Search">
                             </div>
                             <button class="search-button btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-
                         </div>
                     </form>
                 </li>
@@ -73,18 +71,39 @@
         </nav>
         <div class="main-container d-flex">
             <div class="col col-lg-2 col-md-3 col-sm-4 d-flex">
-                <div id="current-weather" class="d-flex flex-column gradient">
-                    <div class="col align-self-center">
+                <div id="current-weather" class=" gradient">
+                    <div class="col align-self-center forecast-icon-container">
                         <img id="forecast-icon" class="img-fluid" src="http://openweathermap.org/img/wn/10d@2x.png" alt="Forecast icon" />
                     </div>
                     <div class="col" id="location-name"></div>
                     <div class="col" id="coords"></div>
                     <div class="col" id="forecast-temperature"></div>
-                    <div class="col" id="forecast-pressure"></div>
-                    <div class="col" id="forecast-wind-speed"></div>
-                    <div class="col" id="forecast-humidity"></div>
-                    <div class="col" id="sunrise"></div>
-                    <div class="col" id="sunset"></div>
+                    <div class="col rest-data-container">
+                        <div class="col forecast-pressure-col rest-data">
+                            <div class="data-name">Pressure: </div>
+                            <div id="forecast-pressure"></div>
+                            <div class="unit">hPa</div>
+                        </div>
+                        <div class="col forecast-wind-speed-col rest-data">
+                            <div class="data-name">Wind: </div>
+                            <div id="forecast-wind-speed"></div>
+                            <div class="unit">km/h</div>
+                        </div>
+                        <div class="col forecast-humidity-col rest-data">
+                            <div class="data-name">Humidity: </div>
+                            <div id="forecast-humidity"></div>
+                        </div>
+                        <div class="col sunrise-col rest-data">
+                            <div class="data-name">Sunrise: </div>
+                            <div id="sunrise"></div>
+                        </div>
+                        <div class="col sunset-col rest-data">
+                            <div class="data-name">Sunset: </div>
+                            <div id="sunset"></div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="col">

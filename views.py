@@ -14,3 +14,6 @@ def display_air_pollution():
 
 def display_map():
     return render_template('map.html')
+
+def search():
+    return render_template('/hourly')
