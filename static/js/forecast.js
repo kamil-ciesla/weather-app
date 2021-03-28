@@ -46,7 +46,14 @@ class Forecast {
         }
     }
     async updateCurrentWeather() {
-        if (this.coords == null) {
+        const sessionCords = window.sessionStorage.getItem('coords');
+        if (sessionCords) {
+            const splittedCoords = (sessionCords.split(','));
+            this.coords = {
+                lat: parseFloat(splittedCoords[0]),
+                lng: parseFloat(splittedCoords[1]),
+            }
+        } else {
             await this.getCurrentPosition();
         }
         const data = await this.getOneCallData();
@@ -92,21 +99,22 @@ class Forecast {
         const date = new Date();
         const today = date.getDay();
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
         for (let i = 1; i <= 7; i++) {
             const dayName = $('<div></div>');
-            dayName.addClass("day-name col-2");
+            dayName.addClass("day-name");
             dayName.html(`${weekdays[(today + i) % 7]}`);
 
             const dayTemp = $('<div></div>');
-            dayTemp.addClass("day-temp col");
+            dayTemp.addClass("day-temp");
             dayTemp.html(`Day: ${forecastDays[i].temp.day}°C`);
 
             const nightTemp = $('<div></div>');
-            nightTemp.addClass("night-temp col text-end");
+            nightTemp.addClass("night-temp ");
             nightTemp.html(`Night: ${forecastDays[i].temp.night}°C`);
 
             const icon = $('<img>');
-            icon.addClass("forecast-icon img-fluid col-1");
+            icon.addClass("forecast-icon img-responsive");
             const iconURL = `http://openweathermap.org/img/wn/${forecastDays[i].weather[0].icon}@2x.png`;
             icon.attr('src', iconURL);
 
@@ -136,6 +144,7 @@ class Forecast {
             }
         }
         const ctx = document.getElementById('hourly-chart-canvas').getContext('2d');
+        Chart.defaults.global.defaultFontColor = "#fff";
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -143,8 +152,8 @@ class Forecast {
                 datasets: [{
                     label: 'Temperature [°C]',
                     data: tempsY,
-                    backgroundColor: 'rgba(255, 193, 99, 0.329)',
-                    borderColor: 'rgba(255, 172, 49, 1)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.35)',
+                    borderColor: 'rgba(199, 62, 99, 1)',
                     borderWidth: 1,
                 }, ],
             },

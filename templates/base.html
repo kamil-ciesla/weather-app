@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type=text/javascript src="{{url_for('static', filename='js/chart.js') }}"></script>
@@ -17,8 +18,21 @@
 </head>
 
 <body>
+    <img class="bg-img" data-speed="2" src="/static/img/background.jpg" alt="">
+    <script>
+        document.addEventListener("mousemove", parallax);
+
+        function parallax(e) {
+            this.querySelectorAll('.bg-img').forEach(bgImg => {
+                const speed = bgImg.getAttribute('data-speed');
+                const x = (window.innerWidth - e.pageX * speed) / 100;
+                const y = (window.innerHeight - e.pageY * speed) / 100;
+                bgImg.style.transform = `translateX(${x}px) translateY(${y}px)`;
+            })
+        }
+    </script>
     <div class="container-fluid website-container ">
-        <div class="container-fluid mt-3">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col  d-flex justify-content-center">
                     <div class="website-title">
@@ -27,24 +41,33 @@
                 </div>
             </div>
         </div>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mt-3 p-2 d-flex gradient ">
-            <form class="form-inline my-2 my-lg-0 d-flex">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <nav class="navbar navbar-expand-lg p-2 d-flex justify-content-center gradient ">
+
             <ul class="navbar-nav d-flex">
 
                 <li id="hourly-chart-button" class="nav-item active">
-                    <a href="/hourly" class="nav-link">Hourly</a>
+                    <a href="/hourly" class="nav-link text-light">Hourly</a>
                 </li>
                 <li id="seven-days-button" class="nav-item active">
-                    <a href="/seven-days" class="nav-link">Seven days</a>
+                    <a href="/seven-days" class="nav-link text-light">Seven days</a>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline my-2 my-lg-0 d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
+
+                            </div>
+                            <button class="search-button btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+
+                        </div>
+                    </form>
                 </li>
                 <li id="air-pollution-button" class="nav-item active">
-                    <a href="/air-pollution" class="nav-link">Air Pollution</a>
+                    <a href="/air-pollution" class="nav-link text-light">Air Pollution</a>
                 </li>
                 <li id="map-button" class="nav-item active  ">
-                    <a href="/map" class="nav-link">Map</a>
+                    <a href="/map" class="nav-link text-light">Map</a>
                 </li>
             </ul>
         </nav>

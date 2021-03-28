@@ -3,32 +3,37 @@
 }
 
 .day {
-    width: 100%;
-    flex-grow: 1;
     color: white;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.3rem;
+    flex-grow: 1;
     display: flex;
-    justify-content: space-evenly;
-    font-size: 1.5rem;
-    max-height: 10vh;
 }
 
 .day>* {
-    display: flex;
     align-items: center;
+    padding: 0.5rem;
 }
 
 #seven-days #day-1 {}
 
-.day-name {}
-
-.day-temp {
-    justify-content: center;
-}
-
-.night-temp {
-    justify-content: center;
+.day-name {
+    width: 20%;
 }
 
 .forecast-icon {
     align-items: center;
+    padding: 0;
+    width: 5%;
+}
+
+.day-temp {
+    justify-content: center;
+    width: 20%;
+}
+
+.night-temp {
+    justify-content: center;
+    width: 60%;
 }

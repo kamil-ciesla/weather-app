@@ -4,19 +4,28 @@ class GoogleMap {
     }
     display() {
         window.addEventListener("load", async() => {
-            const geocoder = new google.maps.Geocoder();
-            // Try HTML5 geolocation.
-            const coords = await GoogleMap.getCurrentPosition();
-            this.forecast.update(coords);
-            // The map, centered at User
+            let coords = {
+                lat: 0,
+                lng: 0
+            }
+            const sessionCords = window.sessionStorage.getItem('coords');
+            if (sessionCords) {
+                const splittedCoords = (sessionCords.split(','));
+                coords = {
+                    lat: parseFloat(splittedCoords[0]),
+                    lng: parseFloat(splittedCoords[1]),
+                }
+            } else {
+                coords = await GoogleMap.getCurrentPosition();
+            }
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 10,
-                center: this.forecast.coords,
+                center: coords,
             });
             const marker = new google.maps.Marker({
                 draggable: true,
                 animation: google.maps.Animation.DROP,
-                position: this.forecast.coords,
+                position: coords,
                 map: map,
             });
             google.maps.event.addListener(marker, "dragstart", async() => {
@@ -28,11 +37,12 @@ class GoogleMap {
                     lat: marker.getPosition().lat(),
                     lng: marker.getPosition().lng()
                 }
+                window.sessionStorage.setItem('coords', coords.lat + ',' + coords.lng);
                 this.forecast.update(coords);
                 this.forecast.updateCurrentWeather();
             });
-            map.setCenter(this.forecast.coords);
-            marker.setPosition(this.forecast.coords);
+            map.setCenter(coords);
+            marker.setPosition(coords);
 
         });
     }

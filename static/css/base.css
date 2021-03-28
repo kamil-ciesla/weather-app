@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Monda&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap');
 * {
     box-sizing: border-box;
 }
 
 .gradient {
-    background: radial-gradient(circle, rgba(39, 52, 99, 1) 18%, rgba(139, 66, 86, 1) 100%);
+    background: radial-gradient(circle, rgba(39, 52, 99, 0.705) 18%, rgba(139, 66, 85, 0.705) 100%);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -19,39 +17,56 @@
 
 body {
     margin: 0;
-    background: radial-gradient(circle, rgba(252, 250, 255, 1) 18%, rgba(216, 208, 227, 1) 100%);
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
+    font-family: 'Lato', sans-serif !important;
+    overflow: hidden;
+}
+
+.bg-img {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    z-index: -1;
 }
 
 .navbar {
     margin: 0.3rem;
 }
 
+.navbar-nav ul {
+    justify-content: center !important;
+}
+
+ul {}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0) !important;
+    border-radius: 0 !important;
+}
+
+.search-button {
+    border-radius: 0 !important;
+}
+
 .website-title {
-    font-family: 'Righteous';
-    font-size: 3em;
-    color: rgba(39, 52, 99, 1);
+    font-size: 3rem;
     letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.815);
 }
 
 .main-container>.col {
-    min-height: 70vh;
+    height: 70vh;
 }
 
 #location {
     margin: auto;
-    font-family: 'Righteous';
 }
 
 #forecast-temperature {
     font-size: 32px;
-    font-weight: 300;
 }
 
 #location-name {
     font-size: 32px;
-    font-weight: 300;
 }
 
 #current-weather {

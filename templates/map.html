@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}"> {% endblock %} {% block body %}
-<div id="map"></div>
+<div class="map-container col d-flex">
+    <div id="map"></div>
+</div>
 
 {% endblock %} {% block js %}
 
