@@ -62,51 +62,46 @@ ul {}
     height: 70vh;
 }
 
+.current-weather-container {
+    height: 100%;
+}
+
 #current-weather {
     color: white;
     padding: 1rem;
     margin: 0.3rem;
-    margin-right: 0.3rem;
-    flex-grow: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-}
-
-#current-weather>* {}
-
-#forecast-icon {
-    flex-grow: 0;
 }
 
 .forecast-icon-container {
-    flex-grow: 0;
-    height: 50%;
+    flex-grow: 2;
 }
 
 #location-name {
     margin: auto;
     font-size: 2rem;
-    flex-grow: 0;
+    flex-shrink: 1;
 }
 
 #coords {
     margin: auto;
     color: var(--darker-text);
-    flex-grow: 0;
+    flex-shrink: 1;
 }
 
 #forecast-temperature {
     font-size: 2.5rem;
     margin: auto;
-    flex-grow: 0;
+    flex-shrink: 1;
 }
 
 .rest-data-container {
     display: flex;
     flex-direction: column;
-    margin-left: 0.5rem;
-    height: 20%;
+    justify-content: space-evenly;
+    flex-grow: 1;
 }
 
 .rest-data {
