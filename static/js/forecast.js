@@ -41,15 +41,20 @@ class Forecast {
         const airPollutionData = await airPollutionResponse.json();
         return airPollutionData;
     }
-    async update(coords, locationName = false) {
-        this.coords = coords;
-        this.locationName = locationName ? locationName : 'Unknown location';
+    async geolocateByName(locationName) {
+        const apiLink = `http://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${this.apiKey}`;
+        const apiResponse = await fetch(apiLink);
+        const apiData = await apiResponse.json();
+        const coords = {
+            "lat": apiData['coord']['lat'],
+            'lng': apiData['coord']['lon']
+        }
+        window.sessionStorage.setItem('coords', coords.lat + ',' + coords.lng);
     }
     async getCurrentPosition() {
         if (this.coords == null) {
             this.coords = await GoogleMap.getCurrentPosition();
             if (this.coords == null) {
-                console.log('NOT FOUND')
                 this.coords = {
                     lat: 0,
                     lng: 0
@@ -108,7 +113,6 @@ class Forecast {
         }
         const data = await this.getOneCallData();
         const forecastDays = data.daily;
-        console.log(forecastDays);
         const date = new Date();
         const today = date.getDay();
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']

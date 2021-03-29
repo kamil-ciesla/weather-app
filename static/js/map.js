@@ -38,7 +38,6 @@ class GoogleMap {
                     lng: marker.getPosition().lng()
                 }
                 window.sessionStorage.setItem('coords', coords.lat + ',' + coords.lng);
-                this.forecast.update(coords);
                 this.forecast.updateCurrentWeather();
             });
             map.setCenter(coords);

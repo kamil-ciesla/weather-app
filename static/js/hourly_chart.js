@@ -3,6 +3,10 @@ function initForecast() {
     const language = 'pl';
     const units = 'metric';
     const forecast = new Forecast(apiKey, language, units);
+    const locationName = $('#location_name').attr('data');
+    if (locationName) {
+        forecast.geolocateByName(locationName);
+    }
     forecast.updateCurrentWeather()
     forecast.createHourlyChart();
 

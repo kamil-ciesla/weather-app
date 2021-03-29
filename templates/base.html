@@ -11,7 +11,8 @@
     <script type=text/javascript src="{{url_for('static', filename='js/chart.js') }}"></script>
     <script type=text/javascript src="{{url_for('static', filename='js/map.js') }}"></script>
     <script type=text/javascript src="{{url_for('static', filename='js/forecast.js') }}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> {% if location_name %}
+    <meta id="location_name" data="{{ location_name }}"> {% endif %}
     <title>Weather app</title>
 
     {% block head %}{% endblock%}
@@ -52,10 +53,10 @@
                     <a href="/seven-days" class="nav-link text-light">Seven days</a>
                 </li>
                 <li class="nav-item">
-                    <form action="/search" class="form-inline my-2 my-lg-0 d-flex">
+                    <form action="/search" method="post" class="form-inline my-2 my-lg-0 d-flex">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <input id="searched_location" class="form-control" type="search" name="location_name" placeholder="" aria-label="Search">
+                                <input id="location_name" class="form-control" type="search" name="location_name" placeholder="" aria-label="Search">
                             </div>
                             <button class="search-button btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                         </div>
