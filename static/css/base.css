@@ -40,7 +40,6 @@ body {
     justify-content: center !important;
 }
 
-ul {}
 
 .form-control {
     background-color: rgba(255, 255, 255, 0) !important;
@@ -111,3 +110,23 @@ ul {}
 .rest-data .data-name {
     width: 50%;
 }
+#lang-buttons{
+    position: absolute !important;
+    right:0 !important;
+    padding:0.5rem;
+    color:white;
+    width: 10rem;
+}
+#lang-buttons .btn{
+    border: 1px solid white;
+    color:white;
+    width:50%;
+}
+#lang-buttons .btn-light{
+    color:black;
+}
+
+.btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+ }
