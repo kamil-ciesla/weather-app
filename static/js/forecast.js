@@ -143,7 +143,6 @@ class Forecast {
     }
     async displaySevenDays(coords) {
         const data = await this.getOneCallData(coords);
-        console.log(data);
         const forecastDays = data.daily;
         const date = new Date();
         const today = date.getDay();
@@ -167,6 +166,7 @@ class Forecast {
             icon.attr('src', iconURL);
 
             const day = $(`#day-${i}`);
+            day.html('');//reset day html
             day.append(dayName);
             day.append(icon);
             day.append(dayTemp);
