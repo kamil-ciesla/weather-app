@@ -58,7 +58,7 @@ body {
 }
 
 .main-container>.col {
-    height: 70vh;
+    min-height: 75vh;
 }
 
 .current-weather-container {
