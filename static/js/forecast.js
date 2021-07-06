@@ -133,7 +133,7 @@ class Forecast {
         }
         $('#forecast-icon').src = iconURL;
         $('#coords').text(`${coords.lat.toPrecision(4)}, ${coords.lng.toPrecision(4)}`);
-        $('#forecast-temperature').text(`${temp}°C`);
+        $('#forecast-temperature').text(`${Math.round(temp)}°C`);
         $('#description').text(description);
         $('#forecast-pressure').text(data.current.pressure);
         $('#forecast-wind-speed').text(data.current.wind_speed);
@@ -154,11 +154,11 @@ class Forecast {
 
             const dayTemp = $('<div></div>');
             dayTemp.addClass("day-temp");
-            dayTemp.html(`Day: ${forecastDays[i].temp.day}°C`);
+            dayTemp.html(`Day: ${Math.round(forecastDays[i].temp.day)}°C`);
 
             const nightTemp = $('<div></div>');
             nightTemp.addClass("night-temp ");
-            nightTemp.html(`Night: ${forecastDays[i].temp.night}°C`);
+            nightTemp.html(`Night: ${Math.round(eforecastDays[i].temp.night)}°C`);
 
             const icon = $('<img>');
             icon.addClass("forecast-icon img-responsive");
@@ -197,7 +197,7 @@ class Forecast {
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         for (let i = 0; i < 24; i++) {
-            tempsY.push(data.hourly[i].temp.toFixed(2));
+            tempsY.push(Math.round(data.hourly[i].temp));
             if (i + currentHour <= 24) {
                 hoursX.push(i + currentHour);
             } else {
