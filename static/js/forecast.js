@@ -1,7 +1,9 @@
 class Forecast {
     constructor(apiKey, language, units) {
         this.apiKey = apiKey;
-        this.language = language;
+        const langFromSession = this.restoreLangFromSession();
+        this.language = langFromSession ? langFromSession : language;
+
         this.units = units;
         this.defaultCoords = {
             lat: 0,
@@ -13,6 +15,17 @@ class Forecast {
         this.airPollutionData;
         this.map;
 
+    }
+    changeLang(language) {
+        this.language = language;
+        this.saveLangInSession();
+        this.update();
+    }
+    saveLangInSession() {
+        window.sessionStorage.setItem('lang', this.language);
+    }
+    restoreLangFromSession() {
+        return window.sessionStorage.getItem('lang');
     }
     async getOneCallData(coords) {
         const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`;
@@ -125,8 +138,8 @@ class Forecast {
         $('#forecast-pressure').text(data.current.pressure);
         $('#forecast-wind-speed').text(data.current.wind_speed);
         $('#forecast-humidity').text(`${data.current.humidity}%`);
-        $('#sunrise').text(`${('0'+sunrise.getHours()).slice(-2)}:${('0'+sunrise.getMinutes()).slice(-2)}`);
-        $('#sunset').text(`${('0'+sunset.getHours()).slice(-2)}:${('0'+sunset.getMinutes()).slice(-2)}`);
+        $('#sunrise').text(`${('0' + sunrise.getHours()).slice(-2)}:${('0' + sunrise.getMinutes()).slice(-2)}`);
+        $('#sunset').text(`${('0' + sunset.getHours()).slice(-2)}:${('0' + sunset.getMinutes()).slice(-2)}`);
     }
     async displaySevenDays(coords) {
         const data = await this.getOneCallData(coords);
@@ -203,7 +216,7 @@ class Forecast {
                     backgroundColor: 'rgba(255, 255, 255, 0.35)',
                     borderColor: 'rgba(199, 62, 99, 1)',
                     borderWidth: 1,
-                }, ],
+                },],
             },
             options: {
                 responsive: true,
@@ -211,11 +224,11 @@ class Forecast {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            callback: function(value, index, values) {
+                            callback: function (value, index, values) {
                                 return value + '°C';
                             },
                         },
-                    }, ],
+                    },],
                 },
             },
         })
