@@ -14,18 +14,94 @@ class Forecast {
         this.oneCallData;
         this.airPollutionData;
         this.map;
+        this.languagesData = {
+            "pl": {
+                "hourly": "24 godziny",
+                "sevenDays": "7 dni",
+                "search": "Szukaj",
+                "airPollution": "Czystość powietrza",
+                "map": "Mapa",
+                "pressure": "Ciśnienie:",
+                "wind": "Wiatr:",
+                "humidity": "Wilgotność:",
+                "sunrise": "Wschód:",
+                "sunset": "Zachód:",
+                "weekdays": ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'],
+                "day": "Dzień",
+                "night": 'Noc',
+                "airQuality": "Jakość powietrza",
+                "airQualityIndex": ['Bardzo wysoka', 'Wysoka', 'Średnia', 'Niska', 'Bardzo niska'],
+                "particlesLongNames": {
+                    "co": "Tlenek węgla",
+                    "no": "Tlenek azotu",
+                    "no2": "Dwutlenek azotu",
+                    "o3": "Ozon",
+                    "so2": "Dwutlenek siarki",
+                    "pm2_5": "Pyły drobne",
+                    "pm10": "Pyły gruboziarniste",
+                    "nh3": "Amoniak",
+                }
+
+            },
+            "eng": {
+                "hourly": "Hourly",
+                "sevenDays": "7 days",
+                "search": "Search",
+                "airPollution": "Air Pollution",
+                "map": "Map",
+                "pressure": "Pressure:",
+                "wind": "Wind:",
+                "humidity": "Humidity:",
+                "sunrise": "Sunrise:",
+                "sunset": "Sunset:",
+                "weekdays": ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                "day": "Day",
+                "night": 'Night',
+                "airQuality": "Air quality",
+                "airQualityIndex": ['Good', 'Fair', 'Moderate', 'Poor', 'Very poor'],
+                "particlesLongNames": {
+                    "co": "Carbon monoxide",
+                    "no": "Nitrogen monoxide",
+                    "no2": "Nitrogen dioxide",
+                    "o3": "Ozone",
+                    "so2": "Sulphur dioxide",
+                    "pm2_5": "Fine particles matter",
+                    "pm10": "Coarse particulate matter",
+                    "nh3": "Ammonia",
+                }
+            }
+        }
 
     }
     changeLang(language) {
         this.language = language;
         this.saveLangInSession();
         this.update();
+        location.reload(); 
+
     }
     saveLangInSession() {
         window.sessionStorage.setItem('lang', this.language);
     }
     restoreLangFromSession() {
         return window.sessionStorage.getItem('lang');
+    }
+
+    displayLangComponents() {
+        const data = this.languagesData[this.language];
+        //menu 
+        $('#hourly-chart-button').children('a').eq(0).text(data['hourly']);
+        $('#seven-days-button').children('a').eq(0).text(data['sevenDays']);
+        $('#search-button').text(data['search']);
+        $('#air-pollution-button').children('a').eq(0).text(data['airPollution']);
+        $('#map-button').children('a').eq(0).text(data['map']);
+        //current weather 
+        $('.forecast-pressure-col').eq(0).children('.data-name').eq(0).text(data['pressure']);
+        $('.forecast-wind-speed-col').eq(0).children('.data-name').eq(0).text(data['wind']);
+        $('.forecast-humidity-col').eq(0).children('.data-name').eq(0).text(data['humidity']);
+        $('.sunrise-col').eq(0).children('.data-name').eq(0).text(data['sunrise']);
+        $('.sunset-col').eq(0).children('.data-name').eq(0).text(data['sunset']);
+
     }
     async getOneCallData(coords) {
         const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`;
@@ -98,6 +174,7 @@ class Forecast {
         return coords;
     }
     async update() {
+        this.displayLangComponents();
         const coords = await this.getCoords();
         this.displayCurrentWeather(coords);
         const pageName = $('#page_name').attr('data');
@@ -146,7 +223,7 @@ class Forecast {
         const forecastDays = data.daily;
         const date = new Date();
         const today = date.getDay();
-        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        const weekdays = this.languagesData[this.language]['weekdays'];
         for (let i = 1; i <= 7; i++) {
             const dayName = $('<div></div>');
             dayName.addClass("day-name");
@@ -154,11 +231,11 @@ class Forecast {
 
             const dayTemp = $('<div></div>');
             dayTemp.addClass("day-temp");
-            dayTemp.html(`Day: ${Math.round(forecastDays[i].temp.day)}°C`);
+            dayTemp.html(`${this.languagesData[this.language]['day']}: ${Math.round(forecastDays[i].temp.day)}°C`);
 
             const nightTemp = $('<div></div>');
             nightTemp.addClass("night-temp ");
-            nightTemp.html(`Night: ${Math.round(eforecastDays[i].temp.night)}°C`);
+            nightTemp.html(`${this.languagesData[this.language]['night']}: ${Math.round(forecastDays[i].temp.night)}°C`);
 
             const icon = $('<img>');
             icon.addClass("forecast-icon img-responsive");
@@ -175,17 +252,27 @@ class Forecast {
     }
     async displayAirPollution(coords) {
         const data = await this.getAirPollutionData(coords);
-        const airQualityIndex = ['Good', 'Fair', 'Moderate', 'Poor', 'Very poor'];
+        const airQualityIndex = this.languagesData[this.language]['airQualityIndex'];
         const airQuality = airQualityIndex[data.list[0].main.aqi];
-        $('#air-quality').html(`Air quality: ${airQuality}`);
-        $('#co').html(`${data.list[0].components.co} μg/m3`);
-        $('#no').html(`${data.list[0].components.no} μg/m3`);
-        $('#no2').html(`${data.list[0].components.no2} μg/m3`);
-        $('#o3').html(`${data.list[0].components.o3} μg/m3`);
-        $('#so2').html(`${data.list[0].components.so2} μg/m3`);
-        $('#pm2_5').html(`${data.list[0].components.pm2_5} μg/m3`);
-        $('#pm10').html(`${data.list[0].components.pm10} μg/m3`);
-        $('#nh3').html(`${data.list[0].components.nh3} μg/m3`);
+        $('#air-quality').html(`${this.languagesData[this.language]['airQuality']}: ${airQuality}`);
+
+        $('#co').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['co']);
+        $('#no').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['no']);
+        $('#no2').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['no2']);
+        $('#o3').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['o3']);
+        $('#so2').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['so2']);
+        $('#pm2_5').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['pm2_5']);
+        $('#pm10').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['pm10']);
+        $('#nh3').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['nh3']);
+
+        $('#co').children('.particle-value').html(`${data.list[0].components.co} μg/m3`);
+        $('#no').children('.particle-value').html(`${data.list[0].components.no} μg/m3`);
+        $('#no2').children('.particle-value').html(`${data.list[0].components.no2} μg/m3`);
+        $('#o3').children('.particle-value').html(`${data.list[0].components.o3} μg/m3`);
+        $('#so2').children('.particle-value').html(`${data.list[0].components.so2} μg/m3`);
+        $('#pm2_5').children('.particle-value').html(`${data.list[0].components.pm2_5} μg/m3`);
+        $('#pm10').children('.particle-value').html(`${data.list[0].components.pm10} μg/m3`);
+        $('#nh3').children('.particle-value').html(`${data.list[0].components.nh3} μg/m3`);
     }
     async displayHourlyChart(coords) {
         const data = await this.getOneCallData(coords);

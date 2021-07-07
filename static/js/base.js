@@ -40,5 +40,9 @@ function loadScript(src) {
     document.getElementsByTagName("head")[0].appendChild(script);
 }
 const callbackFuncName = 'initForecast';
-const GoogleApiKey = 'AIzaSyDgt4lnHWD2KYvENAMHgbdS1Kziq9UosNM'
-loadScript('https://maps.googleapis.com/maps/api/js?key=' + GoogleApiKey + '&callback=' + callbackFuncName + '&libraries=&v=weekly');
+const GoogleApiKey = 'AIzaSyDgt4lnHWD2KYvENAMHgbdS1Kziq9UosNM';
+const GoogleApiLang = (forecast.language == "eng") ? 'en' : 'pl';
+function loadGoogleMapApi() {
+    loadScript('https://maps.googleapis.com/maps/api/js?key=' + GoogleApiKey + '&language=' + GoogleApiLang + '&callback=' + callbackFuncName + '&libraries=&v=weekly');
+}
+loadGoogleMapApi();
