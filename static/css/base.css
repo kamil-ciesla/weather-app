@@ -79,10 +79,10 @@ body {
 }
 
 #location-name {
-   
     margin: auto;
     font-size: 2rem;
     flex-shrink: 1;
+    text-align: center;
 }
 
 #coords {

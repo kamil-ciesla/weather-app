@@ -40,7 +40,8 @@ class Forecast {
                     "pm2_5": "Pyły drobne",
                     "pm10": "Pyły gruboziarniste",
                     "nh3": "Amoniak",
-                }
+                },
+                "locationUnknown":"Nieznana lokalizacja"
 
             },
             "eng": {
@@ -68,7 +69,9 @@ class Forecast {
                     "pm2_5": "Fine particles matter",
                     "pm10": "Coarse particulate matter",
                     "nh3": "Ammonia",
-                }
+                },
+                "locationUnknown":"Location unknown"
+
             }
         }
 
@@ -206,7 +209,7 @@ class Forecast {
         if (locationName) {
             $('#location-name').text(locationName);
         } else {
-            $('#location-name').text('Name undefined');
+            $('#location-name').text(this.languagesData[this.language]['locationUnknown']);
         }
         $('#forecast-icon').src = iconURL;
         $('#coords').text(`${coords.lat.toPrecision(4)}, ${coords.lng.toPrecision(4)}`);
