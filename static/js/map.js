@@ -3,13 +3,11 @@ class GoogleMap {
         this.forecast = forecast;
     }
     display(coords) {
-        window.addEventListener("load", async() => {
-            this.map = this.createMap();
-            this.marker = this.createMarker();
-            this.setMarkerEvents();
-            this.marker.setPosition(coords);
-            this.map.setCenter(coords);
-        });
+        this.map = this.createMap();
+        this.marker = this.createMarker();
+        this.setMarkerEvents();
+        this.marker.setPosition(coords);
+        this.map.setCenter(coords);
     }
     createMap() {
         return new google.maps.Map(document.getElementById("map"), {
@@ -24,10 +22,10 @@ class GoogleMap {
         });
     }
     setMarkerEvents() {
-        google.maps.event.addListener(this.marker, "dragstart", async() => {
+        google.maps.event.addListener(this.marker, "dragstart", async () => {
             this.marker.setAnimation(3); // raise
         });
-        google.maps.event.addListener(this.marker, 'dragend', async() => {
+        google.maps.event.addListener(this.marker, 'dragend', async () => {
             this.marker.setAnimation(4); // fall
             const coords = {
                 lat: this.marker.getPosition().lat(),
@@ -74,7 +72,7 @@ class GoogleMap {
     }
 
     static getUserCoords() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {

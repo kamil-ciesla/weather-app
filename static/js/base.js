@@ -23,22 +23,18 @@ engButton.addEventListener('click', function () {
 
 const openWeatherApiKey = 'b8801437aa00cae409040174e8dadb7c';
 const units = 'metric';
-const defaultLang = 'pl';
-const forecast = new Forecast(openWeatherApiKey, defaultLang, units);
 
-let language = defaultLang;
+const language = (countryCode=="PL")? 'pl':'eng';
+const forecast = new Forecast(openWeatherApiKey, language, units);
+
 document.getElementById(`${forecast.language}-lang`).classList.add('btn-light');
 
 function initForecast() {
+    
     forecast.update()
 }
 
-function loadScript(src) {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-}
+
 const callbackFuncName = 'initForecast';
 const GoogleApiKey = 'AIzaSyDgt4lnHWD2KYvENAMHgbdS1Kziq9UosNM';
 const GoogleApiLang = (forecast.language == "eng") ? 'en' : 'pl';
