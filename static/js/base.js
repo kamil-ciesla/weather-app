@@ -24,10 +24,10 @@ engButton.addEventListener('click', function () {
 const openWeatherApiKey = 'b8801437aa00cae409040174e8dadb7c';
 const units = 'metric';
 
-const language = (countryCode=="PL")? 'pl':'eng';
-const forecast = new Forecast(openWeatherApiKey, language, units);
+const lang = (countryCode=="PL")? 'pl':'eng';
+const forecast = new Forecast(openWeatherApiKey, lang, units);
 
-document.getElementById(`${forecast.language}-lang`).classList.add('btn-light');
+document.getElementById(`${forecast.currentLang}-lang`).classList.add('btn-light');
 
 function initForecast() {
     
@@ -37,7 +37,7 @@ function initForecast() {
 
 const callbackFuncName = 'initForecast';
 const GoogleApiKey = 'AIzaSyDgt4lnHWD2KYvENAMHgbdS1Kziq9UosNM';
-const GoogleApiLang = (forecast.language == "eng") ? 'en' : 'pl';
+const GoogleApiLang = (forecast.currentLang == "eng") ? 'en' : 'pl';
 function loadGoogleMapApi() {
     loadScript('https://maps.googleapis.com/maps/api/js?key=' + GoogleApiKey + '&language=' + GoogleApiLang + '&callback=' + callbackFuncName + '&libraries=&v=weekly');
 }

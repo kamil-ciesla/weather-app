@@ -33,5 +33,16 @@
 
 .night-temp {
     justify-content: center;
-    width: 60%;
+    width: 20%;
+}
+.pop{
+    width: 20%;
+
+}
+.precipation{
+    width: 15%;
+    text-align: center;
+
+
+
 }

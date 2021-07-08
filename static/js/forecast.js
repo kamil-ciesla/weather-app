@@ -1,8 +1,8 @@
 class Forecast {
-    constructor(apiKey, language, units) {
+    constructor(apiKey, lang, units) {
         this.apiKey = apiKey;
         const langFromSession = this.restoreLangFromSession();
-        this.language = langFromSession ? langFromSession : language;
+        this.currentLang = langFromSession ? langFromSession : lang;
 
         this.units = units;
         this.defaultCoords = {
@@ -14,7 +14,7 @@ class Forecast {
         this.oneCallData;
         this.airPollutionData;
         this.map;
-        this.languagesData = {
+        this.langsData = {
             "pl": {
                 "hourly": "24 godziny",
                 "sevenDays": "7 dni",
@@ -41,8 +41,8 @@ class Forecast {
                     "pm10": "Pyły gruboziarniste",
                     "nh3": "Amoniak",
                 },
-                "locationUnknown":"Nieznana lokalizacja",
-                "pop":"Szansa opadów",
+                "locationUnknown": "Nieznana lokalizacja",
+                "pop": "Szansa opadów",
 
 
             },
@@ -72,29 +72,35 @@ class Forecast {
                     "pm10": "Coarse particulate matter",
                     "nh3": "Ammonia",
                 },
-                "locationUnknown":"Location unknown",
-                "pop":"Probability of precipation",
+                "locationUnknown": "Location unknown",
+                "pop": "Probability of precipation",
 
             }
         }
+        this.currentLangData = this.langsData[this.currentLang];
+
 
     }
-    changeLang(language) {
-        this.language = language;
+    changeLang(lang) {
+        this.currentLang = lang;
         this.saveLangInSession();
+        this.currentLangData = this.langsData[this.currentLang];
+        const pageName = $('#page_name').attr('data');
+        if(pageName=="map"){
+            location.reload();
+        }
         this.update();
-        location.reload(); 
 
     }
     saveLangInSession() {
-        window.sessionStorage.setItem('lang', this.language);
+        window.sessionStorage.setItem('lang', this.currentLang);
     }
     restoreLangFromSession() {
         return window.sessionStorage.getItem('lang');
     }
 
     displayLangComponents() {
-        const data = this.languagesData[this.language];
+        const data = this.currentLangData;
         //menu 
         $('#hourly-chart-button').children('a').eq(0).text(data['hourly']);
         $('#seven-days-button').children('a').eq(0).text(data['sevenDays']);
@@ -110,7 +116,7 @@ class Forecast {
 
     }
     async getOneCallData(coords) {
-        const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&lang=${this.language}&units=${this.units}&appid=${this.apiKey}`;
+        const oneCallLink = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lng}&lang=${this.currentLang}&units=${this.units}&appid=${this.apiKey}`;
         const oneCallResponse = await fetch(oneCallLink);
         const oneCallData = await oneCallResponse.json();
         return oneCallData;
@@ -212,7 +218,7 @@ class Forecast {
         if (locationName) {
             $('#location-name').text(locationName);
         } else {
-            $('#location-name').text(this.languagesData[this.language]['locationUnknown']);
+            $('#location-name').text(this.currentLangData['locationUnknown']);
         }
         $('#forecast-icon').src = iconURL;
         $('#coords').text(`${coords.lat.toPrecision(4)}, ${coords.lng.toPrecision(4)}`);
@@ -230,7 +236,7 @@ class Forecast {
         const forecastDays = data.daily;
         const date = new Date();
         const today = date.getDay();
-        const weekdays = this.languagesData[this.language]['weekdays'];
+        const weekdays = this.currentLangData['weekdays'];
         for (let i = 1; i <= 7; i++) {
             const dayName = $('<div></div>');
             dayName.addClass("day-name");
@@ -238,15 +244,23 @@ class Forecast {
 
             const dayTemp = $('<div></div>');
             dayTemp.addClass("day-temp");
-            dayTemp.html(`${this.languagesData[this.language]['day']}: ${Math.round(forecastDays[i].temp.day)}°C`);
+            dayTemp.html(`${this.currentLangData['day']}: ${Math.round(forecastDays[i].temp.day)}°C`);
 
             const nightTemp = $('<div></div>');
             nightTemp.addClass("night-temp ");
-            nightTemp.html(`${this.languagesData[this.language]['night']}: ${Math.round(forecastDays[i].temp.night)}°C`);
+            nightTemp.html(`${this.currentLangData['night']}: ${Math.round(forecastDays[i].temp.night)}°C`);
 
-            const pop = $('<div><div>');
+            const pop = $('<div></div>');
             pop.addClass("pop");
-            pop.html(`${this.languagesData[this.language]['pop']}: ${forecastDays[i].pop*100}%`);
+            pop.html(`${this.currentLangData['pop']}: ${Math.round(forecastDays[i].pop * 100)}%`);
+
+            const precipation = $('<div></div>');
+            precipation.addClass("precipation");
+            if (forecastDays[i].rain) {
+                precipation.html(`${forecastDays[i].rain} mm`);
+            } else {
+                precipation.html(`---`);
+            }
 
             const icon = $('<img>');
             icon.addClass("forecast-icon img-responsive");
@@ -255,27 +269,29 @@ class Forecast {
 
             const day = $(`#day-${i}`);
             day.html('');//reset day html
-            day.append(dayName);
             day.append(icon);
+            day.append(dayName);
             day.append(dayTemp);
             day.append(nightTemp);
             day.append(pop);
+            day.append(precipation);
+
         }
     }
     async displayAirPollution(coords) {
         const data = await this.getAirPollutionData(coords);
-        const airQualityIndex = this.languagesData[this.language]['airQualityIndex'];
+        const airQualityIndex = this.currentLangData['airQualityIndex'];
         const airQuality = airQualityIndex[data.list[0].main.aqi];
-        $('#air-quality').html(`${this.languagesData[this.language]['airQuality']}: ${airQuality}`);
+        $('#air-quality').html(`${this.currentLangData['airQuality']}: ${airQuality}`);
 
-        $('#co').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['co']);
-        $('#no').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['no']);
-        $('#no2').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['no2']);
-        $('#o3').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['o3']);
-        $('#so2').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['so2']);
-        $('#pm2_5').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['pm2_5']);
-        $('#pm10').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['pm10']);
-        $('#nh3').children('.particle-long-name').text(this.languagesData[this.language]['particlesLongNames']['nh3']);
+        $('#co').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['co']);
+        $('#no').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['no']);
+        $('#no2').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['no2']);
+        $('#o3').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['o3']);
+        $('#so2').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['so2']);
+        $('#pm2_5').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['pm2_5']);
+        $('#pm10').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['pm10']);
+        $('#nh3').children('.particle-long-name').text(this.currentLangData['particlesLongNames']['nh3']);
 
         $('#co').children('.particle-value').html(`${data.list[0].components.co} μg/m3`);
         $('#no').children('.particle-value').html(`${data.list[0].components.no} μg/m3`);
