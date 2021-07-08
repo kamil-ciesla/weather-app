@@ -41,7 +41,9 @@ class Forecast {
                     "pm10": "Pyły gruboziarniste",
                     "nh3": "Amoniak",
                 },
-                "locationUnknown":"Nieznana lokalizacja"
+                "locationUnknown":"Nieznana lokalizacja",
+                "pop":"Szansa opadów",
+
 
             },
             "eng": {
@@ -70,7 +72,8 @@ class Forecast {
                     "pm10": "Coarse particulate matter",
                     "nh3": "Ammonia",
                 },
-                "locationUnknown":"Location unknown"
+                "locationUnknown":"Location unknown",
+                "pop":"Probability of precipation",
 
             }
         }
@@ -223,6 +226,7 @@ class Forecast {
     }
     async displaySevenDays(coords) {
         const data = await this.getOneCallData(coords);
+        console.log(data);
         const forecastDays = data.daily;
         const date = new Date();
         const today = date.getDay();
@@ -240,6 +244,10 @@ class Forecast {
             nightTemp.addClass("night-temp ");
             nightTemp.html(`${this.languagesData[this.language]['night']}: ${Math.round(forecastDays[i].temp.night)}°C`);
 
+            const pop = $('<div><div>');
+            pop.addClass("pop");
+            pop.html(`${this.languagesData[this.language]['pop']}: ${forecastDays[i].pop*100}%`);
+
             const icon = $('<img>');
             icon.addClass("forecast-icon img-responsive");
             const iconURL = `http://openweathermap.org/img/wn/${forecastDays[i].weather[0].icon}@2x.png`;
@@ -251,6 +259,7 @@ class Forecast {
             day.append(icon);
             day.append(dayTemp);
             day.append(nightTemp);
+            day.append(pop);
         }
     }
     async displayAirPollution(coords) {
