@@ -21,11 +21,14 @@ class Forecast {
                 "search": "Szukaj",
                 "airPollution": "Czystość powietrza",
                 "map": "Mapa",
-                "pressure": "Ciśnienie:",
-                "wind": "Wiatr:",
-                "humidity": "Wilgotność:",
-                "sunrise": "Wschód:",
-                "sunset": "Zachód:",
+                "precipation": "Szansa opadów",
+                "rain": "Ilość opadów",
+                "pressure": "Ciśnienie",
+                "wind": "Wiatr",
+                "humidity": "Wilgotność",
+                "sunrise": "Wschód",
+                "sunset": "Zachód",
+                'today': 'Dzisiaj',
                 "weekdays": ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'],
                 "day": "Dzień",
                 "night": 'Noc',
@@ -42,21 +45,23 @@ class Forecast {
                     "nh3": "Amoniak",
                 },
                 "locationUnknown": "Nieznana lokalizacja",
-                "pop": "Szansa opadów",
 
 
             },
             "eng": {
                 "hourly": "Hourly",
-                "sevenDays": "7 days",
+                "sevenDays": "Daily",
                 "search": "Search",
                 "airPollution": "Air Pollution",
                 "map": "Map",
-                "pressure": "Pressure:",
-                "wind": "Wind:",
-                "humidity": "Humidity:",
-                "sunrise": "Sunrise:",
-                "sunset": "Sunset:",
+                "precipation": "Precipation",
+                "rain": "Rainfall",
+                "pressure": "Pressure",
+                "wind": "Wind",
+                "humidity": "Humidity",
+                "sunrise": "Sunrise",
+                "sunset": "Sunset",
+                'today': 'Today',
                 "weekdays": ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 "day": "Day",
                 "night": 'Night',
@@ -73,7 +78,6 @@ class Forecast {
                     "nh3": "Ammonia",
                 },
                 "locationUnknown": "Location unknown",
-                "pop": "Probability of precipation",
 
             }
         }
@@ -86,7 +90,7 @@ class Forecast {
         this.saveLangInSession();
         this.currentLangData = this.langsData[this.currentLang];
         const pageName = $('#page_name').attr('data');
-        if(pageName=="map"){
+        if (pageName == "map") {
             location.reload();
         }
         this.update();
@@ -107,12 +111,14 @@ class Forecast {
         $('#search-button').text(data['search']);
         $('#air-pollution-button').children('a').eq(0).text(data['airPollution']);
         $('#map-button').children('a').eq(0).text(data['map']);
-        //current weather 
-        $('.forecast-pressure-col').eq(0).children('.data-name').eq(0).text(data['pressure']);
-        $('.forecast-wind-speed-col').eq(0).children('.data-name').eq(0).text(data['wind']);
-        $('.forecast-humidity-col').eq(0).children('.data-name').eq(0).text(data['humidity']);
-        $('.sunrise-col').eq(0).children('.data-name').eq(0).text(data['sunrise']);
-        $('.sunset-col').eq(0).children('.data-name').eq(0).text(data['sunset']);
+
+        $('.precipation').find('.description').html(`${data['precipation']}: `);
+        $('.rain').find('.description').html(`${data['rain']}: `);
+        $('.pressure').find('.description').html(`${data['pressure']}: `);
+        $('.wind').find('.description').text(`${data['wind']}: `);
+        $('.humidity').find('.description').text(`${data['humidity']}: `);
+        $('.sunrise').find('.description').text(`${data['sunrise']}: `);
+        $('.sunset').find('.description').text(`${data['sunset']}: `);
 
     }
     async getOneCallData(coords) {
@@ -186,9 +192,9 @@ class Forecast {
         return coords;
     }
     async update() {
-        this.displayLangComponents();
         const coords = await this.getCoords();
-        this.displayCurrentWeather(coords);
+        await this.displayCurrentWeather(coords);
+        this.displayLangComponents();
         const pageName = $('#page_name').attr('data');
         switch (pageName) {
             case 'hourly':
@@ -207,74 +213,81 @@ class Forecast {
                 break;
         }
     }
+    getDaysInThisMonth() {
+        const now = new Date();
+        return new Date(now.getFullYear(), 2, 0).getDate();
+    }
     async displayCurrentWeather(coords) {
         const data = await this.getOneCallData(coords);
-        const temp = data.current.temp.toFixed(1);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
-        const description = data.current.weather[0].description;
-        const sunrise = new Date(data.current.sunrise * 1000);
-        const sunset = new Date(data.current.sunset * 1000);
         let locationName = await GoogleMap.getLocationName(coords);
-        if (locationName) {
-            $('#location-name').text(locationName);
-        } else {
-            $('#location-name').text(this.currentLangData['locationUnknown']);
-        }
-        $('#forecast-icon').src = iconURL;
-        $('#coords').text(`${coords.lat.toPrecision(4)}, ${coords.lng.toPrecision(4)}`);
-        $('#forecast-temperature').text(`${Math.round(temp)}°C`);
-        $('#description').text(description);
-        $('#forecast-pressure').text(data.current.pressure);
-        $('#forecast-wind-speed').text(data.current.wind_speed);
-        $('#forecast-humidity').text(`${data.current.humidity}%`);
-        $('#sunrise').text(`${('0' + sunrise.getHours()).slice(-2)}:${('0' + sunrise.getMinutes()).slice(-2)}`);
-        $('#sunset').text(`${('0' + sunset.getHours()).slice(-2)}:${('0' + sunset.getMinutes()).slice(-2)}`);
+        locationName = locationName ? locationName : this.currentLangData['locationUnknown'];
+        const rawDate = new Date();
+        const date = this.currentLangData['today'];
+        const temp = `${Math.round(data.daily[0].temp.day)} / ${Math.round(data.daily[0].temp.night)} °C`;
+        const weatherDescription = data.current.weather[0].description;
+        const precipation = `${Math.round(data.daily[0].pop * 100)} %`;
+        const rain = data.current.rain ? `${data.current.rain['1h']} mm` : `--.-- mm`;
+        const pressure = `${data.current.pressure} hPa`;
+        const wind = `${data.current.wind_speed} km/h`;
+        const humidity = `${data.current.humidity} %`;
+        const rawSunrise = new Date(data.current.sunrise * 1000);
+        const rawSunset = new Date(data.current.sunset * 1000);
+        const sunrise = `${('0' + rawSunrise.getHours()).slice(-2)}:${('0' + rawSunrise.getMinutes()).slice(-2)}`;
+        const sunset = `${('0' + rawSunset.getHours()).slice(-2)}:${('0' + rawSunset.getMinutes()).slice(-2)}`;
+        const currentWeather = $('#current-weather');
+
+        currentWeather.children('.weather-icon').attr('src', iconURL);
+        currentWeather.children('.location-name').find('.value').html(locationName);
+        currentWeather.children('.date').find('.value').html(date);
+        currentWeather.children('.temp').find('.value').html(temp);
+        currentWeather.children('.weather-description').find('.value').html(weatherDescription);
+        currentWeather.children('.precipation').find('.value').html(precipation);
+        currentWeather.children('.rain').find('.value').html(rain);
+        currentWeather.children('.pressure').find('.value').html(pressure);
+        currentWeather.children('.wind').find('.value').html(wind);
+        currentWeather.children('.humidity').find('.value').html(humidity);
+        currentWeather.children('.sunrise').find('.value').html(sunrise);
+        currentWeather.children('.sunset').find('.value').html(sunset);
     }
     async displaySevenDays(coords) {
         const data = await this.getOneCallData(coords);
-        console.log(data);
-        const forecastDays = data.daily;
-        const date = new Date();
-        const today = date.getDay();
+        const rawDate = new Date();
         const weekdays = this.currentLangData['weekdays'];
+        const daysInThisMonth = new Date(rawDate.getFullYear(), rawDate.getMonth()+1, 0).getDate();
         for (let i = 1; i <= 7; i++) {
-            const dayName = $('<div></div>');
-            dayName.addClass("day-name");
-            dayName.html(`${weekdays[(today + i) % 7]}`);
-
-            const dayTemp = $('<div></div>');
-            dayTemp.addClass("day-temp");
-            dayTemp.html(`${this.currentLangData['day']}: ${Math.round(forecastDays[i].temp.day)}°C`);
-
-            const nightTemp = $('<div></div>');
-            nightTemp.addClass("night-temp ");
-            nightTemp.html(`${this.currentLangData['night']}: ${Math.round(forecastDays[i].temp.night)}°C`);
-
-            const pop = $('<div></div>');
-            pop.addClass("pop");
-            pop.html(`${this.currentLangData['pop']}: ${Math.round(forecastDays[i].pop * 100)}%`);
-
-            const precipation = $('<div></div>');
-            precipation.addClass("precipation");
-            if (forecastDays[i].rain) {
-                precipation.html(`${forecastDays[i].rain} mm`);
-            } else {
-                precipation.html(`---`);
+            const iconURL = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
+            const day = $(`#day-${i}`).html('');
+            const dayName = weekdays[(rawDate.getDay() + i) % 7];
+            let dayInMonth = (rawDate.getDate() + i);
+            if(dayInMonth>daysInThisMonth){
+                dayInMonth -=daysInThisMonth;
             }
+            const date = `${dayName} ${dayInMonth}`;
+            const weatherDescription = data.daily[i].weather[0].description;
+            const dayNightTemp = `${Math.round(data.daily[i].temp.day)}° / ${Math.round(data.daily[i].temp.night)}°`;
+            const precipation = `${Math.round(data.daily[i].pop * 100)} %`;
+            const rain = data.daily[i].rain ? `${data.daily[i].rain} mm` : `--.-- mm`;
+            const pressure = `${data.daily[i].pressure} hPa`;
+            const windSpeed = `${data.daily[i].wind_speed} km/h`;
+            const humidity = `${data.daily[i].humidity} %`;
+            const rawSunrise = new Date(data.daily[i].sunrise * 1000);
+            const rawSunset = new Date(data.daily[i].sunset * 1000);
+            const sunrise = `${('0' + rawSunrise.getHours()).slice(-2)}:${('0' + rawSunrise.getMinutes()).slice(-2)}`;
+            const sunset = `${('0' + rawSunset.getHours()).slice(-2)}:${('0' + rawSunset.getMinutes()).slice(-2)}`;
 
-            const icon = $('<img>');
-            icon.addClass("forecast-icon img-responsive");
-            const iconURL = `http://openweathermap.org/img/wn/${forecastDays[i].weather[0].icon}@2x.png`;
-            icon.attr('src', iconURL);
+            day.append($('<img>').addClass("forecast-icon img-responsive").attr('src', iconURL));
+            day.append($('<div></div>').addClass('date').html(date));
+            day.append($('<div></div>').addClass('day-night-temp').html(dayNightTemp));
+            day.append($('<div></div>').addClass('weather-description').html(weatherDescription));
+            day.append($('<div></div>').addClass('precipation').html(precipation));
+            day.append($('<div></div>').addClass('rain').html(rain));
+            day.append($('<div></div>').addClass('pressure').html(pressure));
+            day.append($('<div></div>').addClass('windSpeed').html(windSpeed));
+            day.append($('<div></div>').addClass('humidity').html(humidity));
+            day.append($('<div></div>').addClass('sunrise').html(sunrise));
+            day.append($('<div></div>').addClass('sunset').html(sunset));
 
-            const day = $(`#day-${i}`);
-            day.html('');//reset day html
-            day.append(icon);
-            day.append(dayName);
-            day.append(dayTemp);
-            day.append(nightTemp);
-            day.append(pop);
-            day.append(precipation);
 
         }
     }
