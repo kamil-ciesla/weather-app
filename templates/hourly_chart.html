@@ -2,8 +2,11 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/hourly_chart.css') }}"> {% endblock %} {% block body %}
 <div id="hourly-chart">
     <canvas id="hourly-chart-canvas"></canvas>
+    <script>
+        const hourlyChartCanvas = document.getElementById('hourly-chart-canvas');
+        hourlyChartCanvas.addEventListener('click', function () {
+            forecast.toggleHourlyChart();
+        });
+    </script>
 </div>
-{% endblock %} {% block js %}
-<script type=text/javascript src="{{url_for('static', filename='js/hourly_chart.js') }}"></script>
-
 {% endblock %}

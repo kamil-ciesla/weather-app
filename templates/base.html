@@ -46,7 +46,14 @@
             </div>
         </div>
         <nav class="navbar navbar-expand-lg p-2 d-flex justify-content-center gradient ">
+            <div id="units-buttons">
+                <div class="input-group">
+                    <button id="imperial-button" class="btn ">°F</button>
+                    <button id="metric-button" class="btn ">°C</button>
+                    <button id="standard-button" class="btn ">K</button>
 
+                </div>
+            </div>
             <ul class="navbar-nav d-flex">
 
                 <li id="hourly-chart-button" class="nav-item active">
@@ -83,51 +90,47 @@
 
         </nav>
         <div class="main-container d-flex">
-            <div class="col-2">
-                <div class="current-weather-container d-flex">
-                    <div id="current-weather" class="gradient">
-                        <img class="weather-icon img-responsive 4w align-self-center">
-                        <div class="location-name">
-                            <div class="value"></div>
-                        </div>
-                        <div class="date">
-                            <div class="value"></div>
-                        </div>
-                        <div class="temp">
-                            <div class="value"></div>
-                        </div>
-                        <div class="weather-description">
-                            <div class="value"></div>
-                        </div>
-                        <div class="precipation">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                        <div class="rain">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                        <div class="pressure">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                        <div class="wind">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                        <div class="humidity">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                        <div class="sunrise">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                        <div class="sunset">
-                            <div class="description"></div>
-                            <div class="value"></div>
-                        </div>
-                    </div>
+            <div id="current-weather" class="gradient col-2 ">
+                <img class="weather-icon img-responsive 4w align-self-center">
+                <div class="location-name">
+                    <div class="value"></div>
+                </div>
+                <div class="date">
+                    <div class="value"></div>
+                </div>
+                <div class="temp">
+                    <div class="value"></div>
+                </div>
+                <div class="weather-description">
+                    <div class="value"></div>
+                </div>
+                <div class="precipation">
+                    <div class="description"></div>
+                    <div class="value"></div>
+                </div>
+                <div class="rain">
+                    <div class="description"></div>
+                    <div class="value"></div>
+                </div>
+                <div class="pressure">
+                    <div class="description"></div>
+                    <div class="value"></div>
+                </div>
+                <div class="wind">
+                    <div class="description"></div>
+                    <div class="value"></div>
+                </div>
+                <div class="humidity">
+                    <div class="description"></div>
+                    <div class="value"></div>
+                </div>
+                <div class="sunrise">
+                    <div class="description"></div>
+                    <div class="value"></div>
+                </div>
+                <div class="sunset">
+                    <div class="description"></div>
+                    <div class="value"></div>
                 </div>
             </div>
             <div class="col">

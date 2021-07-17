@@ -1,10 +1,10 @@
 class Forecast {
-    constructor(apiKey, lang, units) {
+    constructor(apiKey, lang) {
         this.apiKey = apiKey;
         const langFromSession = this.restoreLangFromSession();
         this.currentLang = langFromSession ? langFromSession : lang;
-
-        this.units = units;
+        const unitsFromSession = this.restoreUnitsFromSession();
+        this.units = unitsFromSession ? unitsFromSession : 'metric';
         this.defaultCoords = {
             lat: 0,
             lng: 0
@@ -45,7 +45,9 @@ class Forecast {
                     "nh3": "Amoniak",
                 },
                 "locationUnknown": "Nieznana lokalizacja",
-
+                'temp': 'Temperatura',
+                'tempToggleMsg': 'Kliknij na wykres aby wyświetlić dane o opadach deszczu',
+                'rainToggleMsg': 'Kliknij na wykres aby wyświetlić dane o temperaturze',
 
             },
             "eng": {
@@ -78,12 +80,40 @@ class Forecast {
                     "nh3": "Ammonia",
                 },
                 "locationUnknown": "Location unknown",
+                'temp': 'Temperature',
+                'tempToggleMsg': 'Click on the chart to display rainfall data',
+                'rainToggleMsg': 'Click on the chart to display temperature data',
 
             }
+        }
+        this.unitsData = {
+            'imperial': {
+                'temp': '°F',
+                'windSpeed': 'm/h'
+            },
+            'metric': {
+                'temp': '°C',
+                'windSpeed': 'm/s'
+            },
+            'standard': {
+                'temp': 'K',
+                'windSpeed': 'm/s'
+            },
         }
         this.currentLangData = this.langsData[this.currentLang];
 
 
+    }
+    changeUnits(units) {
+        this.units = units;
+        this.saveUnitsInSession();
+        this.update();
+    }
+    saveUnitsInSession() {
+        window.sessionStorage.setItem('units', this.units);
+    }
+    restoreUnitsFromSession() {
+        return window.sessionStorage.getItem('units');
     }
     changeLang(lang) {
         this.currentLang = lang;
@@ -198,7 +228,7 @@ class Forecast {
         const pageName = $('#page_name').attr('data');
         switch (pageName) {
             case 'hourly':
-                this.displayHourlyChart(coords);
+                this.displayHourlyRain(coords);
                 break;
             case 'seven-days':
                 this.displaySevenDays(coords);
@@ -219,17 +249,19 @@ class Forecast {
     }
     async displayCurrentWeather(coords) {
         const data = await this.getOneCallData(coords);
+        console.log(data);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
         let locationName = await GoogleMap.getLocationName(coords);
         locationName = locationName ? locationName : this.currentLangData['locationUnknown'];
-        const rawDate = new Date();
         const date = this.currentLangData['today'];
-        const temp = `${Math.round(data.daily[0].temp.day)} / ${Math.round(data.daily[0].temp.night)} °C`;
+        const tempUnit = this.unitsData[this.units]['temp']
+        const temp = `${Math.round(data.daily[0].temp.day)} / ${Math.round(data.daily[0].temp.night)} ${tempUnit}`;
         const weatherDescription = data.current.weather[0].description;
         const precipation = `${Math.round(data.daily[0].pop * 100)} %`;
         const rain = data.current.rain ? `${data.current.rain['1h']} mm` : `--.-- mm`;
         const pressure = `${data.current.pressure} hPa`;
-        const wind = `${data.current.wind_speed} km/h`;
+        const windSpeedUnit = this.unitsData[this.units]['windSpeed'];
+        const wind = `${data.current.wind_speed} ${windSpeedUnit}`;
         const humidity = `${data.current.humidity} %`;
         const rawSunrise = new Date(data.current.sunrise * 1000);
         const rawSunset = new Date(data.current.sunset * 1000);
@@ -254,22 +286,24 @@ class Forecast {
         const data = await this.getOneCallData(coords);
         const rawDate = new Date();
         const weekdays = this.currentLangData['weekdays'];
-        const daysInThisMonth = new Date(rawDate.getFullYear(), rawDate.getMonth()+1, 0).getDate();
+        const daysInThisMonth = new Date(rawDate.getFullYear(), rawDate.getMonth() + 1, 0).getDate();
         for (let i = 1; i <= 7; i++) {
             const iconURL = `http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}@2x.png`;
             const day = $(`#day-${i}`).html('');
             const dayName = weekdays[(rawDate.getDay() + i) % 7];
             let dayInMonth = (rawDate.getDate() + i);
-            if(dayInMonth>daysInThisMonth){
-                dayInMonth -=daysInThisMonth;
+            if (dayInMonth > daysInThisMonth) {
+                dayInMonth -= daysInThisMonth;
             }
             const date = `${dayName} ${dayInMonth}`;
             const weatherDescription = data.daily[i].weather[0].description;
-            const dayNightTemp = `${Math.round(data.daily[i].temp.day)}° / ${Math.round(data.daily[i].temp.night)}°`;
+            const tempUnit = this.unitsData[this.units]['temp']
+            const dayNightTemp = `${Math.round(data.daily[i].temp.day)} / ${Math.round(data.daily[i].temp.night)} ${tempUnit}`;
             const precipation = `${Math.round(data.daily[i].pop * 100)} %`;
             const rain = data.daily[i].rain ? `${data.daily[i].rain} mm` : `--.-- mm`;
             const pressure = `${data.daily[i].pressure} hPa`;
-            const windSpeed = `${data.daily[i].wind_speed} km/h`;
+            const windSpeedUnit = this.unitsData[this.units]['windSpeed'];
+            const windSpeed = `${data.daily[i].wind_speed} ${windSpeedUnit}`;
             const humidity = `${data.daily[i].humidity} %`;
             const rawSunrise = new Date(data.daily[i].sunrise * 1000);
             const rawSunset = new Date(data.daily[i].sunset * 1000);
@@ -287,8 +321,6 @@ class Forecast {
             day.append($('<div></div>').addClass('humidity').html(humidity));
             day.append($('<div></div>').addClass('sunrise').html(sunrise));
             day.append($('<div></div>').addClass('sunset').html(sunset));
-
-
         }
     }
     async displayAirPollution(coords) {
@@ -315,7 +347,7 @@ class Forecast {
         $('#pm10').children('.particle-value').html(`${data.list[0].components.pm10} μg/m3`);
         $('#nh3').children('.particle-value').html(`${data.list[0].components.nh3} μg/m3`);
     }
-    async displayHourlyChart(coords) {
+    async displayHourlyTemp(coords) {
         const data = await this.getOneCallData(coords);
         if (this.hourlyChart) {
             this.hourlyChart.destroy();
@@ -325,7 +357,7 @@ class Forecast {
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         for (let i = 0; i < 24; i++) {
-            tempsY.push(Math.round(data.hourly[i].temp));
+            tempsY.push(data.hourly[i].temp);
             if (i + currentHour <= 24) {
                 hoursX.push(i + currentHour);
             } else {
@@ -339,9 +371,9 @@ class Forecast {
             data: {
                 labels: hoursX,
                 datasets: [{
-                    label: 'Temperature [°C]',
+                    label: `${this.currentLangData['temp']} [${this.unitsData[this.units]['temp']}] (${this.currentLangData['tempToggleMsg']})`,
                     data: tempsY,
-                    backgroundColor: 'rgba(255, 255, 255, 0.35)',
+                    backgroundColor: 'rgba(150, 57, 103, 0.25)',
                     borderColor: 'rgba(199, 62, 99, 1)',
                     borderWidth: 1,
                 },],
@@ -353,7 +385,7 @@ class Forecast {
                     yAxes: [{
                         ticks: {
                             callback: function (value, index, values) {
-                                return value + '°C';
+                                return value;
                             },
                         },
                     },],
@@ -361,6 +393,57 @@ class Forecast {
             },
         })
     }
+    async displayHourlyRain(coords) {
+        const data = await this.getOneCallData(coords);
+        if (this.hourlyChart) {
+            this.hourlyChart.destroy();
+        }
+        const hoursX = [];
+        const rainY = [];
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        for (let i = 0; i < 24; i++) {
+            const rain = data.hourly[i].rain ? data.hourly[i].rain['1h'] : 0;
+            rainY.push(rain);
+            if (i + currentHour <= 24) {
+                hoursX.push(i + currentHour);
+            } else {
+                hoursX.push(i + currentHour - 24);
+            }
+        }
+        const ctx = document.getElementById('hourly-chart-canvas').getContext('2d');
+        Chart.defaults.global.defaultFontColor = "#fff";
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: hoursX,
+                datasets: [{
+                    label: `${this.currentLangData['rain']} [mm] (${this.currentLangData['rainToggleMsg']})`,
+                    data: rainY,
+                    backgroundColor: 'rgba(39, 52, 99, 0.45)',
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    borderWidth: 1,
+                },],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return value;
+                            },
+                        },
+                    },],
+                },
+            },
+        })
+    }
+    toggleHourlyChart() {
+        console.log('XD');
+    }
+
     async displayMap(coords) {
         this.map = new GoogleMap(this);
         this.map.display(coords);

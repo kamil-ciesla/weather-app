@@ -8,7 +8,7 @@
 }
 
 .gradient {
-    background: radial-gradient(circle, #273463b4 18%, #8b4255b4 100%);
+    background: radial-gradient(circle, rgba(39, 52, 99, 0.706) 18%, rgba(139, 66, 85, 0.706) 100%);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -56,12 +56,32 @@ body {
     color: rgba(255, 255, 255, 0.815);
 }
 
+#units-buttons {
+    position: absolute !important;
+    left: 0 !important;
+    padding: 0.5rem;
+    color: white;
+    width: 10rem !important;
+    display: flex;
+}
+
+#units-buttons .btn {
+    border: 1px solid white;
+    color: white;
+    flex-grow: 1;
+    width:33%;
+}
+
+#units-buttons .btn-light {
+    color: black;
+}
+
 #lang-buttons {
     position: absolute !important;
     right: 0 !important;
     padding: 0.5rem;
     color: white;
-    width: 9rem;
+    width: 10rem;
 }
 
 #lang-buttons .btn {
@@ -83,16 +103,14 @@ body {
     min-height: 75vh;
 }
 
-.current-weather-container {
-    height: 100%;
-}
+.current-weather-container {}
 
 #current-weather {
     color: white;
     padding: 1rem;
     margin: 0.3rem;
-    width: 100%;
     display: flex;
+    height: 100%;
     flex-direction: column;
 }
 
@@ -101,7 +119,8 @@ body {
     flex-direction: row;
     padding: 0.2rem;
 }
-#current-weather .description{
+
+#current-weather .description {
     width: 60%;
 }
 
@@ -117,7 +136,7 @@ body {
 }
 
 .temp {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin: auto;
 }
 
