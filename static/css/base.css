@@ -26,6 +26,7 @@ body {
 }
 
 .bg-img {
+    zoom: 1.5;
     position: absolute;
     top: -10%;
     left: -10%;
@@ -103,12 +104,14 @@ body {
     min-height: 75vh;
 }
 
-.current-weather-container {}
+.current-weather-container {
+    margin: 0.3rem;
+}
 
 #current-weather {
+    padding-top:4rem !important;
     color: white;
     padding: 1rem;
-    margin: 0.3rem;
     display: flex;
     height: 100%;
     flex-direction: column;

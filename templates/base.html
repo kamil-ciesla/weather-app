@@ -16,16 +16,37 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta id="page_name" data="{{ page_name }}"> {% if location_name %}
     <meta id="location_name" data="{{ location_name }}"> {% endif %}
+
+
+    <link rel="shortcut icon"
+    href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+
+    <link rel="apple-touch-icon"
+        sizes="180x180"
+        href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+
+    <link rel="icon"
+        type="image/png"
+        sizes="180x180"
+        href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+
+    <link rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+
+    <link rel="manifest"
+    href="site.webmanifest">
+
     <title>Weather app</title>
 
     {% block head %}{% endblock%}
 </head>
 
 <body>
-    <img class="bg-img" data-speed="2" src="/static/img/background.jpg" alt="">
+    <img class="bg-img" data-speed="2" src="/static/img/triangle.png" alt="">
     <script>
         document.addEventListener("mousemove", parallax);
-
         function parallax(e) {
             this.querySelectorAll('.bg-img').forEach(bgImg => {
                 const speed = bgImg.getAttribute('data-speed');
@@ -90,49 +111,52 @@
 
         </nav>
         <div class="main-container d-flex">
-            <div id="current-weather" class="gradient col-2 ">
-                <img class="weather-icon img-responsive 4w align-self-center">
-                <div class="location-name">
-                    <div class="value"></div>
-                </div>
-                <div class="date">
-                    <div class="value"></div>
-                </div>
-                <div class="temp">
-                    <div class="value"></div>
-                </div>
-                <div class="weather-description">
-                    <div class="value"></div>
-                </div>
-                <div class="precipation">
-                    <div class="description"></div>
-                    <div class="value"></div>
-                </div>
-                <div class="rain">
-                    <div class="description"></div>
-                    <div class="value"></div>
-                </div>
-                <div class="pressure">
-                    <div class="description"></div>
-                    <div class="value"></div>
-                </div>
-                <div class="wind">
-                    <div class="description"></div>
-                    <div class="value"></div>
-                </div>
-                <div class="humidity">
-                    <div class="description"></div>
-                    <div class="value"></div>
-                </div>
-                <div class="sunrise">
-                    <div class="description"></div>
-                    <div class="value"></div>
-                </div>
-                <div class="sunset">
-                    <div class="description"></div>
-                    <div class="value"></div>
+            <div class="current-weather-container col-2">
+                <div id="current-weather" class="gradient ">
+                    <img class="weather-icon img-responsive 4w align-self-center">
+                    <div class="location-name">
+                        <div class="value"></div>
+                    </div>
+                    <div class="date">
+                        <div class="value"></div>
+                    </div>
+                    <div class="temp">
+                        <div class="value"></div>
+                    </div>
+                    <div class="weather-description">
+                        <div class="value"></div>
+                    </div>
+                    <div class="precipation">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="rain">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="pressure">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="wind">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="humidity">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="sunrise">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
+                    <div class="sunset">
+                        <div class="description"></div>
+                        <div class="value"></div>
+                    </div>
                 </div>
             </div>
+            
             <div class="col">
                 {% block body %}{% endblock %}
             </div>

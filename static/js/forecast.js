@@ -10,10 +10,10 @@ class Forecast {
             lng: 0
         }
         this.locationName;
-        this.hourlyChart;
         this.oneCallData;
         this.airPollutionData;
         this.map;
+        this.currentHourlyChart = 'temp';
         this.langsData = {
             "pl": {
                 "hourly": "24 godziny",
@@ -228,7 +228,7 @@ class Forecast {
         const pageName = $('#page_name').attr('data');
         switch (pageName) {
             case 'hourly':
-                this.displayHourlyRain(coords);
+                this.displayHourlyTemp(coords);
                 break;
             case 'seven-days':
                 this.displaySevenDays(coords);
@@ -249,7 +249,6 @@ class Forecast {
     }
     async displayCurrentWeather(coords) {
         const data = await this.getOneCallData(coords);
-        console.log(data);
         const iconURL = `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`;
         let locationName = await GoogleMap.getLocationName(coords);
         locationName = locationName ? locationName : this.currentLangData['locationUnknown'];
@@ -366,7 +365,7 @@ class Forecast {
         }
         const ctx = document.getElementById('hourly-chart-canvas').getContext('2d');
         Chart.defaults.global.defaultFontColor = "#fff";
-        const chart = new Chart(ctx, {
+        this.hourlyChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: hoursX,
@@ -374,8 +373,9 @@ class Forecast {
                     label: `${this.currentLangData['temp']} [${this.unitsData[this.units]['temp']}] (${this.currentLangData['tempToggleMsg']})`,
                     data: tempsY,
                     backgroundColor: 'rgba(150, 57, 103, 0.25)',
-                    borderColor: 'rgba(199, 62, 99, 1)',
+                    borderColor: 'rgba(255, 255, 255, 1)',
                     borderWidth: 1,
+                    tempUnit: this.unitsData[this.units]['temp'],
                 },],
             },
             options: {
@@ -389,15 +389,44 @@ class Forecast {
                             },
                         },
                     },],
+                    xAxes:[{
+                        ticks:{
+                            callback:function(value){
+                                return `${value}:00`;
+                            }
+                        }
+                    },]
                 },
+                tooltips:{
+                    callbacks:{
+                        title: function() {
+                            return '';
+                          },
+                        label: function() {
+                            return '';
+                          },
+                        afterLabel: function(tooltipItem, data) {
+                            const dataset = data['datasets'][0];
+                            const temp = Math.round(dataset['data'][tooltipItem['index']]);
+                            const tempUnit = dataset['tempUnit'];
+                            return `${temp} ${tempUnit}`;
+                          }
+                    },
+                    bodyFontSize:22,
+                },
+                legend:{
+                    labels:{
+                        fontSize:18,
+                    },
+
+                }
             },
         })
     }
     async displayHourlyRain(coords) {
+        
         const data = await this.getOneCallData(coords);
-        if (this.hourlyChart) {
-            this.hourlyChart.destroy();
-        }
+        
         const hoursX = [];
         const rainY = [];
         const currentTime = new Date();
@@ -413,7 +442,7 @@ class Forecast {
         }
         const ctx = document.getElementById('hourly-chart-canvas').getContext('2d');
         Chart.defaults.global.defaultFontColor = "#fff";
-        const chart = new Chart(ctx, {
+         this.hourlyChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: hoursX,
@@ -436,12 +465,54 @@ class Forecast {
                             },
                         },
                     },],
+                    xAxes:[{
+                        ticks:{
+                            callback:function(value){
+                                return `${value}:00`;
+                            }
+                        }
+                    },]
                 },
+                tooltips:{
+                    callbacks:{
+                        title: function() {
+                            return '';
+                          },
+                        label: function() {
+                            return '';
+                          },
+                        afterLabel: function(tooltipItem, data) {
+                            const dataset = data['datasets'][0];
+                            const temp = dataset['data'][tooltipItem['index']];
+                            const rainUnit = dataset['rainUnit'];
+                            return `${temp} mm`;
+                          }
+                    },
+                    bodyFontSize:22,
+                },
+                legend:{
+                    labels:{
+                        fontSize:18,
+                    },
+
+                }
             },
         })
     }
-    toggleHourlyChart() {
-        console.log('XD');
+    async toggleHourlyChart() {
+        if (this.hourlyChart) {
+            this.hourlyChart.destroy();
+        }
+        const coords = await this.getCoords();
+        if(this.currentHourlyChart=='rain'){
+            this.displayHourlyTemp(coords);
+            this.currentHourlyChart = 'temp';
+        }
+        else if(this.currentHourlyChart=='temp'){
+            this.displayHourlyRain(coords);
+            this.currentHourlyChart = 'rain';
+        }
+
     }
 
     async displayMap(coords) {

@@ -2,11 +2,12 @@
     height: 100%;
     display: flex;
     flex-direction: row;
-
 }
 
 .day {
     color: white;
+    padding-top:4rem !important;
+
     margin: 0.3rem;
     display: flex;
     flex-direction: column;
